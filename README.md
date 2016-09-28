@@ -6,18 +6,14 @@
 主要功能
 ----
 『XDPlayer』是一款多功能的视频播放器。既可以用作本地视频播放器，也可以用来观看IPv6电视，同时支持哔哩哔哩和AcFun的视频播放与下载。您还可以将喜欢的视频收藏起来，方便以后观看。   
-
-注意事项
-----
-打开应用如果发现界面一直处于获取节目列表的状态，请断开手机WiFi并重新连接，再次刷新应用界面即可正常获取节目列表。
  
 屏幕截图
 ----
 ![截图1](http://firimg.fir.im/a12229821671cf0be2124a0b143ef6a49abac3ba?imageView2/0/w/426/h/240)
 ![截图2](http://firimg.fir.im/c0256d3c37df296f815c8789ac8fabe36e425d55?imageView2/0/w/426/h/240)
-![截图3](http://firimg.fir.im/c84ffc54b49b5b8553cebaecacce7ad4d1ea1470?imageView2/0/w/426/h/240)
+![截图3](http://firimg.fir.im/25ed37acbaf215d98232ebc3f80f22db842b7b5f?imageView2/0/w/426/h/240)
 ![截图4](http://firimg.fir.im/870aba01a9c90fdfa69e30fdc461954fd09e614d?imageView2/0/w/426/h/240)
-![截图5](http://firimg.fir.im/ef5d2c1eb8d3a309e36a6d9f99e3a87d025736fa?imageView2/0/w/426/h/240)
+![截图5](http://firimg.fir.im/41a9a133ed7ceb764e93067dd3f07f75df5b3090?imageView2/0/w/426/h/240)
 
 联系作者
 ----
@@ -26,18 +22,15 @@
 
 更新日期
 ----
-2016-9-25   
+2016-9-28   
 
 更新详情
 ----
-【新增】新增清华大学IPTV测试站；  
-【新增】新增本地视频播放功能；  
-【新增】新增播放在线视频功能；  
-【新增】新增收藏功能；  
-【新增】支持哔哩哔哩和AcFun视频搜索、播放和下载；  
-【优化】界面全新改版；  
-【修复】修复一些BUG。  
-
+【新增】新增检查更新功能；  
+【新增】新增本地列表删除文件夹功能；  
+【优化】提升性能；  
+【优化】更改部分界面；  
+【修复】修复锁定屏幕出现的bug。  
 感谢
 ----
 - [vitamio](https://www.vitamio.org/)  
