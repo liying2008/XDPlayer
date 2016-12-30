@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#686868</color>
+    <color name="colorPrimaryDark">#505050</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="bg_color">#d0d7d7d7</color>
+    <color name="text_color_hint">#b9b9b9</color>
+    <color name="tab_top_text_1">#aaa</color>
+    <color name="tab_top_text_2">#000</color>
+    <color name="item_function_bg_pressed">#3fa3a3a3</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="review_date">#e040469e</color>
+    <color name="review_program">#f3148370</color>
+    <color name="line_color">#DDDADFE5</color>
+    <color name="title_color">#707070</color>
+    <color name="app_name_color">#555555</color>
+    <color name="text_color">#7C7F89</color>
+    <color name="item_function_text_color">#333333</color>
+    <color name="controller_color">#77000000</color>
+
+    <color name="list_select_name_color">#F3148370</color>
+    <color name="bar_sele_color">#c0919191</color>
+    <color name="holo_orange_light">#ffffbb33</color>
+    <color name="func_color">#435356</color>
+
+</resources>

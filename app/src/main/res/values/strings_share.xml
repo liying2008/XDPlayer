@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="share_to">分享到</string>
+    <string name="share_description">『%s』是一款多功能的视频播放器。既可以用作本地视频播放器，也可以用来观看IPv6电视，同时支持哔哩哔哩和AcFun的视频播放与下载。您还可以将喜欢的视频收藏起来，方便以后观看。\n下载地址： http://fir.im/xdp 。</string>
+</resources>

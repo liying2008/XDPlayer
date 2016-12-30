@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="lxy.liying.hdtvneu">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+
+    <application
+        android:name=".app.App"
+        android:allowBackup="true"
+        android:exported="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:replace="android:allowBackup">
+        <!--启动页-->
+        <activity
+            android:name=".activity.SplashActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <!--MainActivity-->
+        <activity
+            android:name=".activity.MainActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <!--NEU IPv6视频直播节目回看内容选择界面-->
+        <activity android:name=".activity.NEU_ReviewListActivity"/>
+        <activity
+            android:name="io.vov.vitamio.activity.InitActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <!--本地视频列表界面-->
+        <activity android:name=".activity.LocalVideoListActivity"/>
+        <!--流媒体播放界面-->
+        <activity
+            android:name=".activity.M3U8Player"
+            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <!--视频媒体播放界面-->
+        <activity
+            android:name=".activity.LocalVideoPlayer"
+            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:mimeType="audio/*"
+                    android:scheme="http"/>
+                <data
+                    android:mimeType="audio/*"
+                    android:scheme="rtsp"/>
+                <data
+                    android:mimeType="audio/*"
+                    android:scheme="rtmp"/>
+                <data
+                    android:mimeType="audio/*"
+                    android:scheme="udp"/>
+                <data
+                    android:mimeType="audio/*"
+                    android:scheme="tcp"/>
+                <data
+                    android:mimeType="audio/*"
+                    android:scheme="file"/>
+                <data
+                    android:mimeType="audio/*"
+                    android:scheme="content"/>
+                <data
+                    android:mimeType="audio/*"
+                    android:scheme="mms"/>
+                <data
+                    android:mimeType="video/*"
+                    android:scheme="http"/>
+                <data
+                    android:mimeType="video/*"
+                    android:scheme="rtsp"/>
+                <data
+                    android:mimeType="video/*"
+                    android:scheme="rtmp"/>
+                <data
+                    android:mimeType="video/*"
+                    android:scheme="udp"/>
+                <data
+                    android:mimeType="video/*"
+                    android:scheme="tcp"/>
+                <data
+                    android:mimeType="video/*"
+                    android:scheme="file"/>
+                <data
+                    android:mimeType="video/*"
+                    android:scheme="content"/>
+                <data
+                    android:mimeType="video/*"
+                    android:scheme="mms"/>
+                <data android:mimeType="application/octet-stream"/>
+                <data android:mimeType="application/x-mpegurl"/>
+                <data android:mimeType="application/vnd.apple.mpegurl"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:scheme="content"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:mimeType="application/x-mpegurl"
+                    android:scheme="http"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="rtsp"/>
+                <data android:scheme="rtmp"/>
+                <data android:scheme="mms"/>
+                <data android:scheme="tcp"/>
+                <data android:scheme="udp"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.SEND"/>
+                <action android:name="android.intent.action.SENDTO"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:mimeType="video/*"/>
+                <data android:mimeType="application/sdp"/>
+                <data android:mimeType="application/octet-stream"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="http"/>
+                <data android:mimeType="video/*"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="file"/>
+                <data android:scheme="content"/>
+                <data android:scheme="http"/>
+                <data android:scheme="https"/>
+                <data android:scheme="ftp"/>
+                <data android:scheme="rtsp"/>
+                <data android:scheme="rtmp"/>
+                <data android:scheme="mms"/>
+                <data android:scheme="tcp"/>
+                <data android:scheme="udp"/>
+                <data android:scheme="gopher"/>
+                <data android:mimeType="video/*"/>
+                <data android:mimeType="audio/*"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="file"/>
+                <data android:scheme="content"/>
+                <data android:scheme="http"/>
+                <data android:scheme="https"/>
+                <data android:scheme="ftp"/>
+                <data android:scheme="rtsp"/>
+                <data android:scheme="rtmp"/>
+                <data android:scheme="mms"/>
+                <data android:scheme="tcp"/>
+                <data android:scheme="udp"/>
+                <data android:scheme="gopher"/>
+                <data android:host="*"/>
+                <data android:pathPattern=".*\\.avi"/>
+                <data android:pathPattern=".*\\.asf"/>
+                <data android:pathPattern=".*\\.f4v"/>
+                <data android:pathPattern=".*\\.flv"/>
+                <data android:pathPattern=".*\\.mkv"/>
+                <data android:pathPattern=".*\\.mpeg"/>
+                <data android:pathPattern=".*\\.mpg"/>
+                <data android:pathPattern=".*\\.mov"/>
+                <data android:pathPattern=".*\\.rm"/>
+                <data android:pathPattern=".*\\.vob"/>
+                <data android:pathPattern=".*\\.wmv"/>
+                <data android:pathPattern=".*\\.ts"/>
+                <data android:pathPattern=".*\\.tp"/>
+                <data android:pathPattern=".*\\.m3u"/>
+                <data android:pathPattern=".*\\.m3u8"/>
+                <data android:pathPattern=".*\\.m4v"/>
+                <data android:pathPattern=".*\\.mp4"/>
+            </intent-filter>
+        </activity>
+
+        <!--哔哩哔哩视频-->
+        <activity
+            android:name=".activity.BiliMainActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize"/>
+        <!--AcFun视频-->
+        <activity
+            android:name=".activity.AcFunMainActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize"/>
+        <!--播放在线视频-->
+        <activity
+            android:name=".activity.OnlineVideoActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize"/>
+        <!--应用推荐界面-->
+        <activity android:name=".activity.RecommendActivity"/>
+        <!--下载管理界面-->
+        <activity android:name=".activity.DownloadManagerActivity"/>
+        <!--在线视频的播放界面-->
+        <activity
+            android:name=".activity.OnlineVideoPlayer"
+            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <!--bilibili视频的播放界面-->
+        <activity
+            android:name=".activity.BiliAcFunVideoPlayer"
+            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <!--本地视频搜索结果界面-->
+        <activity android:name=".activity.SearchListActivity"/>
+        <!--网页Activity，旋转屏幕禁止重新加载-->
+        <activity
+            android:name=".activity.WebActivity"
+            android:configChanges="orientation|screenSize"/>
+        <!--应用设置界面-->
+        <activity android:name=".activity.SettingsActivity"/>
+        <!--关于界面-->
+        <activity
+            android:name=".activity.AboutActivity"/>
+
+        <!--获取界面列表的服务-->
+        <service
+            android:name="lxy.liying.hdtvneu.service.MainService"
+            android:exported="false"
+            android:label="@string/app_name"/>
+    </application>
+</manifest>

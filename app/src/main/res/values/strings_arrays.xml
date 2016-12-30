@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="ipv6_pages">
+        <item>东北大学HDTV</item>
+        <item>北邮人IPTV</item>
+        <item>清华大学IPTV</item>
+    </string-array>
+    <string-array name="mark_pages">
+        <item>IPv6电视</item>
+        <item>本地视频</item>
+        <item>B&amp;A</item>
+        <item>其他</item>
+    </string-array>
+</resources>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:clickable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/llProgram"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/selector_item_function"
+            android:layout_weight="4"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical">
+            <android.support.v7.widget.CardView
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="6dp"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="5dp">
+                <ImageView
+                    android:id="@+id/ivThumbnail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/default_tv_img"/>
+            </android.support.v7.widget.CardView>
+            <TextView
+                android:id="@+id/tvProgram"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="CCTV-1高清"
+                android:textSize="16sp"
+                android:textColor="@color/text_color"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llReview"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center"
+            android:layout_gravity="center">
+            <ImageView
+                android:layout_height="30dp"
+                android:layout_width="30dp"
+                android:background="@drawable/btn_program_review_selector"/>
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/line_color" />
+</LinearLayout>
