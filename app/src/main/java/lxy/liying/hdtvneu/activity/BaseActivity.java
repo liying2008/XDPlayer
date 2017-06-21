@@ -8,12 +8,13 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.umeng.analytics.MobclickAgent;
+
 import lxy.liying.hdtvneu.R;
 import lxy.liying.hdtvneu.app.App;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/8/14 19:03
  * 版本：1.0
@@ -71,5 +72,17 @@ public class BaseActivity extends FragmentActivity {
         super.onBackPressed();
         finish();
         overridePendingTransition(R.anim.push_right_in_ac, R.anim.push_right_out_ac);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
     }
 }

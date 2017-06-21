@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-              android:background="@drawable/main_bg"
     tools:context=".activity.OnlineVideoActivity">
 
     <android.support.design.widget.AppBarLayout

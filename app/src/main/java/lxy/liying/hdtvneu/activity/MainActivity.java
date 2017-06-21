@@ -25,7 +25,6 @@ import lxy.liying.hdtvneu.fragment.LocalListFragment;
 import lxy.liying.hdtvneu.fragment.MarkListFragment;
 import lxy.liying.hdtvneu.fragment.MoreFragment;
 import lxy.liying.hdtvneu.fragment.NEUPListFragment;
-import lxy.liying.hdtvneu.fragment.QHPListFragment;
 
 public class MainActivity extends BaseActivity {
 
@@ -111,9 +110,6 @@ public class MainActivity extends BaseActivity {
         } else if (App.getInstance().currentFragment != null &&
                 App.getInstance().currentFragment instanceof BYRPListFragment) {
             callFragmentBack = ((BYRPListFragment) App.getInstance().currentFragment).onBackPress();
-        } else if (App.getInstance().currentFragment != null &&
-                App.getInstance().currentFragment instanceof QHPListFragment) {
-            callFragmentBack = ((QHPListFragment) App.getInstance().currentFragment).onBackPress();
         }
 
         if (!callFragmentBack) {

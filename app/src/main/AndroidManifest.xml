@@ -21,6 +21,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
+        <meta-data
+            android:name="lxy.liying.hdtvneu.glide.MyGlideModule"
+            android:value="GlideModule"/>
+        <!--友盟元数据-->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="573d826667e58ee9e1001ef7"/>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}"/>
         <!--启动页-->
         <activity
             android:name=".activity.SplashActivity"
@@ -244,12 +254,6 @@
         <!--在线视频的播放界面-->
         <activity
             android:name=".activity.OnlineVideoPlayer"
-            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <!--bilibili视频的播放界面-->
-        <activity
-            android:name=".activity.BiliAcFunVideoPlayer"
             android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar"/>

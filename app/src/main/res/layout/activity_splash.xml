@@ -1,36 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/main_bg">
-
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="#FAFAFA">
 
     <ImageView
         android:id="@+id/iv"
-        android:layout_height="155dp"
         android:layout_width="130dp"
-        android:src="@drawable/icon_show"
+        android:layout_height="155dp"
         android:layout_gravity="center"
-        android:layout_marginTop="-60dp"/>
+        android:layout_marginTop="-60dp"
+        android:src="@drawable/icon_show"/>
 
     <TextView
         android:id="@+id/tv2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/short_desc"
         android:layout_marginTop="40dp"
-        android:textSize="16sp"
-        android:textColor="#777"/>
+        android:text="@string/short_desc"
+        android:textColor="#555555"
+        android:textSize="16sp"/>
+
     <TextView
         android:id="@+id/tvCopyright"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/copyright"
         android:layout_gravity="bottom"
-        android:gravity="bottom|center_horizontal"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="14dp"
         android:alpha="0.6"
-        android:textColor="#555"/>
+        android:gravity="bottom|center_horizontal"
+        android:text="@string/copyright"
+        android:textColor="#555"
+        android:textSize="12sp"/>
 
 </FrameLayout>

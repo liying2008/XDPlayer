@@ -9,11 +9,10 @@ import org.json.JSONObject;
 import lxy.liying.hdtvneu.app.App;
 import lxy.liying.hdtvneu.domain.UpdateMsg;
 import lxy.liying.hdtvneu.service.callback.OnCheckUpdateCallback;
-import lxy.liying.hdtvneu.utils.HtmlGetter;
+import lxy.liying.hdtvneu.utils.CommonUtils;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/9/28 0:21
  * 版本：1.0
@@ -48,7 +47,7 @@ public class CheckUpdateTask extends AsyncTask<Void, Void, Void> {
     }
     @Override
     protected Void doInBackground(Void... params) {
-        String html = HtmlGetter.getHtml(PATH, ENCODING);
+        String html = CommonUtils.getHtml(PATH, ENCODING);
         try {
             if ("null".equals(html) || "".equals(html)) {
                 mHandler.sendEmptyMessage(NULL);

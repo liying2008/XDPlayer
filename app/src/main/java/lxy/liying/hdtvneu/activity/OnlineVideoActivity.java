@@ -25,7 +25,6 @@ import lxy.liying.hdtvneu.utils.WebUrlUtil;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/8/23 15:47
  * 版本：1.0
@@ -52,7 +51,7 @@ public class OnlineVideoActivity extends BaseActivity {
                 overridePendingTransition(R.anim.push_right_in_ac, R.anim.push_right_out_ac);
             }
         });
-        
+
         rlOnlinePlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +70,7 @@ public class OnlineVideoActivity extends BaseActivity {
                 }
             }
         });
-        
+
         rlOnlineDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,12 +94,12 @@ public class OnlineVideoActivity extends BaseActivity {
                             } else {
                                 String host = WebUrlUtil.getHost(url);
                                 MarkItem item = new MarkItem(System.currentTimeMillis(), title,
-                                        null, MarkGroup.ONLINE, url, host, 0L);
+                                    null, MarkGroup.ONLINE, url, host, 0L);
                                 String fileName = item.getName() + FileUtils.getUrlSuffix(item.getPath());
                                 fileName = fileName.replace("/", "&").replace("\\", "&");
                                 String path = Constants.ONLINE_DOWNLOAD + File.separator + fileName;
                                 Downloader downloader = new Downloader(OnlineVideoActivity.this,
-                                        fileName, item.getFolder(), path);
+                                    fileName, item.getFolder(), path);
                                 downloader.addDownloader(item.getPath(), path);
                                 if (App.downloaders.size() == 0) {
                                     downloader.startTask();
@@ -119,7 +118,7 @@ public class OnlineVideoActivity extends BaseActivity {
                 }
             }
         });
-        
+
         rlOnlineMark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,17 +143,18 @@ public class OnlineVideoActivity extends BaseActivity {
                                 } else {
                                     String host = WebUrlUtil.getHost(url);
                                     MarkItem item = new MarkItem(System.currentTimeMillis(), title,
-                                            null, MarkGroup.ONLINE, url, host, 0L);
+                                        null, MarkGroup.ONLINE, url, host, 0L);
                                     App.markService.addMarkVideo(item);
                                     AppToast.showToast("视频已收藏。");
                                     if (App.onlineMarkItems != null) {
                                         App.onlineMarkItems.add(item);
                                     }
-                                    if (MarkOnlineFragment.getInstance() != null) {
+                                    MarkOnlineFragment fragment = MarkOnlineFragment.getInstance();
+                                    if (fragment != null) {
                                         // 刷新MarkListFragment
-                                        MarkOnlineFragment.getInstance().markOnlineAdapter.addData(item);
-                                        MarkOnlineFragment.getInstance().markOnlineAdapter.notifyDataSetChanged();
-                                        MarkOnlineFragment.getInstance().tvMarkNone.setVisibility(View.GONE);
+                                        fragment.markOnlineAdapter.addData(item);
+                                        fragment.markOnlineAdapter.notifyDataSetChanged();
+                                        fragment.tvMarkNone.setVisibility(View.GONE);
                                     }
                                 }
                                 dialog.dismiss();

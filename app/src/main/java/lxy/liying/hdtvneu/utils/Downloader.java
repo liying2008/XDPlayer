@@ -21,7 +21,6 @@ import lxy.liying.hdtvneu.fragment.DownloadingFragment;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/9/17 20:09
  * 版本：1.0
@@ -31,21 +30,13 @@ import lxy.liying.hdtvneu.fragment.DownloadingFragment;
  */
 public class Downloader {
     private Context context;
-    /**
-     * 下载文件名
-     */
+    /** 下载文件名 */
     public String name;
-    /**
-     * 视频来源
-     */
+    /** 视频来源 */
     public String from;
-    /**
-     * 视频所在本地路径
-     */
+    /** 视频所在本地路径 */
     public String path;
-    /**
-     * 该条目在RecyclerView中的位置
-     */
+    /** 该条目在RecyclerView中的位置 */
     private int position;
     private DownloadingListAdapter ingAdapter;
     private WaitDownloadListAdapter waitAdapter;

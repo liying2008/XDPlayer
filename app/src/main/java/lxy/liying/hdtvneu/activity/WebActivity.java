@@ -3,12 +3,16 @@ package lxy.liying.hdtvneu.activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -18,7 +22,6 @@ import lxy.liying.hdtvneu.R;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/9/16 13:34
  * 版本：1.0
@@ -46,23 +49,44 @@ public class WebActivity extends BaseActivity {
         Log.i(TAG, "path = " + path);
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
+        settings.setSupportZoom(true);
+        settings.setBuiltInZoomControls(true);
+        // 不显示webView缩放按钮
+        settings.setDisplayZoomControls(false);
+        // 自适应屏幕
+        settings.setUseWideViewPort(true);
+        settings.setLoadWithOverviewMode(true);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 webView.loadUrl(url);
                 return true;
             }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                progressBar.setVisibility(View.GONE);
+            }
         });
-        // 设置加载进度条
+
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
-                if (newProgress >= 95) {
-                    progressBar.setVisibility(View.GONE);
-                } else {
-                    progressBar.setProgress(newProgress);
-                }
                 super.onProgressChanged(view, newProgress);
+                progressBar.setProgress(newProgress);
             }
         });
         webView.loadUrl(path);
@@ -92,5 +116,13 @@ public class WebActivity extends BaseActivity {
             getWindow().setAttributes(lp);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // 解决android webview ZoomButtonsController 导致android.view.WindowLeaked
+        ViewGroup view = (ViewGroup) getWindow().getDecorView();
+        view.removeAllViews();
+        super.onBackPressed();
     }
 }

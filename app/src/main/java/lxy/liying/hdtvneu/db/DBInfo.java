@@ -6,7 +6,6 @@ import lxy.liying.hdtvneu.domain.XDVideo;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/7/24 10:39
  * 版本：1.0
@@ -15,20 +14,12 @@ import lxy.liying.hdtvneu.domain.XDVideo;
  * =======================================================
  */
 class DBInfo {
-    /**
-     * 数据库名称
-     */
+    /** 数据库名称 */
     static final String DB_NAME = "xd.db";
-    /**
-     * 数据库版本
-     */
+    /** 数据库版本 */
     static final int DB_VERSION = 1;
 
-    /**
-     * 数据库表
-     *
-     * @author 李颖
-     */
+    /** 数据库表 */
     static class Table {
         static final String TB_VIDEO_NAME = "xd_video";
         static final String TB_MARK_NAME = "mark";

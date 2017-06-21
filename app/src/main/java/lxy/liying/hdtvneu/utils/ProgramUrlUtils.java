@@ -3,7 +3,6 @@ package lxy.liying.hdtvneu.utils;
 
 /**
  * =======================================================
- * 版权：Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/5/20 20:27
  * 版本：1.0
@@ -39,16 +38,7 @@ public class ProgramUrlUtils {
             if ("".equals(p)) {
                 return "";
             }
-            return "http://tv6.byr.cn/hls/" + p + ".m3u8";
-        } else if ("4".equals(programInfo[0])) {
-            // 清华大学IPTV测试
-            String p = programInfo[1];
-            if ("".equals(p)) {
-                return "";
-            } else if ("tsinghuatv".equals(p) || "fhwszwt".equals(p) || "fhwszxt".equals(p)) {
-                return "http://iptv.tsinghua.edu.cn/local/" + p + ".m3u8";
-            }
-            return "http://iptv.tsinghua.edu.cn/hls/" + p + ".m3u8";
+            return "https://tv6.byr.cn/hls/" + p + ".m3u8";
         } else {
             return "";
         }

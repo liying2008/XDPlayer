@@ -14,11 +14,10 @@ import java.util.List;
 
 import lxy.liying.hdtvneu.domain.AcFunVideo;
 import lxy.liying.hdtvneu.service.callback.OnGetAcFunVideoCallback;
-import lxy.liying.hdtvneu.utils.HtmlGetter;
+import lxy.liying.hdtvneu.utils.CommonUtils;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/9/8 10:03
  * 版本：1.0
@@ -102,7 +101,7 @@ public class ParseAcFunVideosTask extends AsyncTask<String, Void, Void> {
      * @return
      */
     private JSONObject getJson(String url) throws JSONException {
-        String html = HtmlGetter.getHtml(url, "UTF-8");
+        String html = CommonUtils.getHtml(url, "UTF-8");
         // 删掉前面的 system.tv=
         String json = html.substring(10);
         return new JSONObject(json);

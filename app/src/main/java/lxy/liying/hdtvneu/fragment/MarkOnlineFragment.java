@@ -1,7 +1,6 @@
 package lxy.liying.hdtvneu.fragment;
 
 import android.app.ProgressDialog;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 import com.flyco.dialog.entity.DialogMenuItem;
 import com.flyco.dialog.listener.OnOperItemClickL;
 import com.flyco.dialog.widget.NormalListDialog;
-import com.shizhefei.fragment.LazyFragment;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -31,8 +29,9 @@ import lxy.liying.hdtvneu.adapter.MarkOnlineAdapter;
 import lxy.liying.hdtvneu.app.App;
 import lxy.liying.hdtvneu.domain.MarkGroup;
 import lxy.liying.hdtvneu.domain.MarkItem;
-import lxy.liying.hdtvneu.service.task.GetMarkVideoTask;
 import lxy.liying.hdtvneu.service.callback.OnGetMarkVideosCallback;
+import lxy.liying.hdtvneu.service.task.GetMarkVideoTask;
+import lxy.liying.hdtvneu.utils.CommonUtils;
 import lxy.liying.hdtvneu.utils.Constants;
 import lxy.liying.hdtvneu.utils.Downloader;
 import lxy.liying.hdtvneu.utils.FileUtils;
@@ -41,7 +40,6 @@ import lxy.liying.hdtvneu.utils.RecyclerItemClickListener;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/8/14 14:45
  * 版本：1.0
@@ -49,7 +47,7 @@ import lxy.liying.hdtvneu.utils.RecyclerItemClickListener;
  * 备注：
  * =======================================================
  */
-public class MarkOnlineFragment extends LazyFragment implements OnGetMarkVideosCallback {
+public class MarkOnlineFragment extends BaseFragment implements OnGetMarkVideosCallback {
     private RecyclerView rvMarkOnline;
     public TextView tvMarkNone;
     public MarkOnlineAdapter markOnlineAdapter;
@@ -141,9 +139,9 @@ public class MarkOnlineFragment extends LazyFragment implements OnGetMarkVideosC
                 final MarkItem item = markOnlineItems.get(position);
                 final NormalListDialog dialog = new NormalListDialog(getActivity(), mMenuItems);
                 dialog.title("请选择")//
-                        .showAnim(App.mBasIn)//
-                        .dismissAnim(App.mBasOut)//
-                        .show();
+                    .showAnim(App.mBasIn)//
+                    .dismissAnim(App.mBasOut)//
+                    .show();
                 dialog.setOnOperItemClickL(new OnOperItemClickL() {
                     @Override
                     public void onOperItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -185,7 +183,7 @@ public class MarkOnlineFragment extends LazyFragment implements OnGetMarkVideosC
                                         AppToast.showToast("视频标题不可为空。");
                                     } else {
                                         MarkItem newItem = new MarkItem(System.currentTimeMillis(), title,
-                                                null, MarkGroup.ONLINE, item.getPath(), item.getFolder(), 0L);
+                                            null, MarkGroup.ONLINE, item.getPath(), item.getFolder(), 0L);
                                         App.markService.updateMarkItemName(item.getMarkId(), title);
                                         AppToast.showToast("视频标题已修改。");
                                         // 刷新App中的onlineMarkItems
@@ -193,7 +191,7 @@ public class MarkOnlineFragment extends LazyFragment implements OnGetMarkVideosC
                                         App.onlineMarkItems.remove(location);
                                         App.onlineMarkItems.add(location, newItem);
                                         // 刷新MarkListFragment
-                                        MarkOnlineFragment.getInstance().markOnlineAdapter.updateDate(item, newItem);
+                                        markOnlineAdapter.updateDate(item, newItem);
                                     }
                                     dialog.dismiss();
                                 }
@@ -202,17 +200,7 @@ public class MarkOnlineFragment extends LazyFragment implements OnGetMarkVideosC
                             App.autoInputPanel(getActivity());   // 弹出输入法面板
                         } else if (position == 3) {
                             // 分享视频
-                            Intent shareIntent = new Intent();
-                            shareIntent.setAction(Intent.ACTION_SEND);
-                            shareIntent.setType("text/*");
-                            String path = item.getPath();
-                            shareIntent.putExtra(Intent.EXTRA_TEXT, path);
-                            ComponentName cn = shareIntent.resolveActivity(getActivity().getPackageManager());
-                            if (cn != null) {
-                                startActivity(Intent.createChooser(shareIntent, getString(R.string.share_to)));
-                            } else {
-                                AppToast.showToast("无法分享。");
-                            }
+                            CommonUtils.shareText(getActivity(), item.getPath());
                         }
                         dialog.dismiss();
                     }

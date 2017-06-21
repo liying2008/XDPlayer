@@ -4,7 +4,6 @@ import java.util.List;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/8/22 21:54
  * 版本：1.0
@@ -95,5 +94,4 @@ public class BiliVideo {
     public void setTime(String time) {
         this.time = time;
     }
-
 }

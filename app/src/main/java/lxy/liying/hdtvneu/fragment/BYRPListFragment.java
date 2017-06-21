@@ -18,8 +18,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.shizhefei.fragment.LazyFragment;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,10 +28,10 @@ import lxy.liying.hdtvneu.domain.Program;
 import lxy.liying.hdtvneu.service.MainBinder;
 import lxy.liying.hdtvneu.service.MainService;
 import lxy.liying.hdtvneu.service.callback.On_BY_GetAllProgramsCallback;
+import lxy.liying.hdtvneu.utils.Constants;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/8/14 14:52
  * 版本：1.0
@@ -41,32 +39,20 @@ import lxy.liying.hdtvneu.service.callback.On_BY_GetAllProgramsCallback;
  * 备注：
  * =======================================================
  */
-public class BYRPListFragment extends LazyFragment implements On_BY_GetAllProgramsCallback, SwipeRefreshLayout.OnRefreshListener {
-    /**
-     * 数据
-     */
+public class BYRPListFragment extends BaseFragment implements On_BY_GetAllProgramsCallback, SwipeRefreshLayout.OnRefreshListener {
+    /** 数据 */
     private BY_ProgramsAdapter programsAdapter;
-    /**
-     * 数据源
-     */
+    /** 数据源  */
     private MainBinder mainBinder;
     private Button btnSearch;
     private EditText etSearchProgram;
-    /**
-     * 节目列表
-     */
+    /** 节目列表  */
     private List<Program> mProgramsList;
-    /**
-     * 搜索到的节目列表
-     */
+    /** 搜索到的节目列表  */
     private List<Program> mSearchList = new ArrayList<>(150);
-    /**
-     * 是否处于搜索状态
-     */
+    /** 是否处于搜索状态 */
     private static boolean isSearching = false;
-    /**
-     * 节目列表视图
-     */
+    /** 节目列表视图 */
     private RecyclerView rvPrograms;
     private TextView tvTotal;
     private ProgressDialog progressDialog;
@@ -104,11 +90,7 @@ public class BYRPListFragment extends LazyFragment implements On_BY_GetAllProgra
         rvPrograms.setLayoutManager(new LinearLayoutManager(getActivity()));
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_red_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_green_light,
-                android.R.color.holo_blue_bright
-        );
+        swipeRefreshLayout.setColorSchemeResources(Constants.SWIPE_REFRESH_COLOR_SCHEME);
         Intent intent = new Intent(getActivity(), MainService.class);
         getActivity().bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
         if (mainBinder != null) {
@@ -175,7 +157,6 @@ public class BYRPListFragment extends LazyFragment implements On_BY_GetAllProgra
         if (!isSearching) {
             btnSearch.setVisibility(View.GONE);
             mainBinder.by_getAllPrograms(this);
-            programsAdapter.clearCache();
         } else {
             swipeRefreshLayout.setRefreshing(false);
         }
@@ -200,7 +181,7 @@ public class BYRPListFragment extends LazyFragment implements On_BY_GetAllProgra
         return false;
     }
 
-    class SearchTextWatcher implements TextWatcher {
+    private class SearchTextWatcher implements TextWatcher {
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {

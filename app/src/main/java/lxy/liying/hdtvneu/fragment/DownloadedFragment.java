@@ -4,13 +4,9 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.flyco.dialog.entity.DialogMenuItem;
@@ -33,7 +29,6 @@ import lxy.liying.hdtvneu.utils.RecyclerItemClickListener;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/8/14 14:52
  * 版本：1.0
@@ -41,20 +36,18 @@ import lxy.liying.hdtvneu.utils.RecyclerItemClickListener;
  * 备注：
  * =======================================================
  */
-public class DownloadedFragment extends Fragment {
+public class DownloadedFragment extends BaseFragment {
     private RecyclerView rvDownloaded;
     private DownloadedListAdapter adapter;
     private ArrayList<DialogMenuItem> mMenuItems = new ArrayList<>();
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_downloaded, container, false);
-        rvDownloaded = (RecyclerView) view.findViewById(R.id.rvDownloaded);
+    protected void onCreateViewLazy(Bundle savedInstanceState) {
+        super.onCreateViewLazy(savedInstanceState);
+        setContentView(R.layout.fragment_downloaded);
+        rvDownloaded = (RecyclerView) findViewById(R.id.rvDownloaded);
         rvDownloaded.setLayoutManager(new LinearLayoutManager(getActivity()));
         initData();
-        return view;
     }
 
     private void initData() {
@@ -83,62 +76,62 @@ public class DownloadedFragment extends Fragment {
             public void onItemLongClick(View view, final int location) {
                 final NormalListDialog dialog = new NormalListDialog(getActivity(), mMenuItems);
                 dialog.title("请选择")//
-                        .showAnim(App.mBasIn)//
-                        .dismissAnim(App.mBasOut)//
-                        .show();
+                    .showAnim(App.mBasIn)//
+                    .dismissAnim(App.mBasOut)//
+                    .show();
                 dialog.setOnOperItemClickL(new OnOperItemClickL() {
                     @Override
                     public void onOperItemClick(AdapterView<?> parent, View view, int position, long id) {
                         if (position == 0) {
                             // 从列表中移除
                             final NormalDialog dialog = App.getNormalDialog(getActivity(),
-                                    "确定要将该视频从列表中移除?\n(不删除SD上的文件)");
+                                "确定要将该视频从列表中移除?\n(不删除SD上的文件)");
 
                             dialog.setOnBtnClickL(
-                                    new OnBtnClickL() {
-                                        @Override
-                                        public void onBtnClick() {
-                                            // 取消
-                                            dialog.dismiss();
-                                        }
-                                    },
-                                    new OnBtnClickL() {
-                                        @Override
-                                        public void onBtnClick() {
-                                            // 确定
-                                            App.downloadService.removeDownloadItem(App.downloadItems.get(location).getPath());
-                                            App.downloadItems.remove(location);
-                                            adapter.notifyDataSetChanged();
-                                            AppToast.showToast("已移除");
-                                            dialog.dismiss();
-                                        }
-                                    });
+                                new OnBtnClickL() {
+                                    @Override
+                                    public void onBtnClick() {
+                                        // 取消
+                                        dialog.dismiss();
+                                    }
+                                },
+                                new OnBtnClickL() {
+                                    @Override
+                                    public void onBtnClick() {
+                                        // 确定
+                                        App.downloadService.removeDownloadItem(App.downloadItems.get(location).getPath());
+                                        App.downloadItems.remove(location);
+                                        adapter.notifyDataSetChanged();
+                                        AppToast.showToast("已移除");
+                                        dialog.dismiss();
+                                    }
+                                });
                         } else if (position == 1) {
                             // 从SD上删除
                             final NormalDialog dialog = App.getNormalDialog(getActivity(),
-                                    "确定要将该视频从SD卡中删除?\n(同时从列表中移除)");
+                                "确定要将该视频从SD卡中删除?\n(同时从列表中移除)");
 
                             dialog.setOnBtnClickL(
-                                    new OnBtnClickL() {
-                                        @Override
-                                        public void onBtnClick() {
-                                            // 取消
-                                            dialog.dismiss();
-                                        }
-                                    },
-                                    new OnBtnClickL() {
-                                        @Override
-                                        public void onBtnClick() {
-                                            // 确定
-                                            App.downloadService.removeDownloadItem(App.downloadItems.get(location).getPath());
-                                            File f = new File(App.downloadItems.get(location).getPath());
-                                            f.delete();
-                                            App.downloadItems.remove(location);
-                                            adapter.notifyDataSetChanged();
-                                            AppToast.showToast("已删除");
-                                            dialog.dismiss();
-                                        }
-                                    });
+                                new OnBtnClickL() {
+                                    @Override
+                                    public void onBtnClick() {
+                                        // 取消
+                                        dialog.dismiss();
+                                    }
+                                },
+                                new OnBtnClickL() {
+                                    @Override
+                                    public void onBtnClick() {
+                                        // 确定
+                                        App.downloadService.removeDownloadItem(App.downloadItems.get(location).getPath());
+                                        File f = new File(App.downloadItems.get(location).getPath());
+                                        f.delete();
+                                        App.downloadItems.remove(location);
+                                        adapter.notifyDataSetChanged();
+                                        AppToast.showToast("已删除");
+                                        dialog.dismiss();
+                                    }
+                                });
                         } else if (position == 2) {
                             // 分享视频
                             Intent shareIntent = new Intent();

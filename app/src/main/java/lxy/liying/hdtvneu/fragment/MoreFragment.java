@@ -1,14 +1,10 @@
 package lxy.liying.hdtvneu.fragment;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-
-import com.shizhefei.fragment.LazyFragment;
 
 import cc.duduhuo.applicationtoast.AppToast;
 import lxy.liying.hdtvneu.R;
@@ -21,16 +17,12 @@ import lxy.liying.hdtvneu.activity.SettingsActivity;
 import lxy.liying.hdtvneu.adapter.MoreFuncListAdapter;
 import lxy.liying.hdtvneu.dialog.UpdateDialog;
 import lxy.liying.hdtvneu.domain.UpdateMsg;
-import lxy.liying.hdtvneu.service.task.CheckUpdateTask;
 import lxy.liying.hdtvneu.service.callback.OnCheckUpdateCallback;
+import lxy.liying.hdtvneu.service.task.CheckUpdateTask;
 import lxy.liying.hdtvneu.utils.NetworkUtils;
-import permissions.dispatcher.NeedsPermission;
-import permissions.dispatcher.OnPermissionDenied;
-import permissions.dispatcher.RuntimePermissions;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/8/14 14:47
  * 版本：1.0
@@ -38,8 +30,7 @@ import permissions.dispatcher.RuntimePermissions;
  * 备注：
  * =======================================================
  */
-@RuntimePermissions
-public class MoreFragment extends LazyFragment implements MoreFuncListAdapter.OnItemClickListener {
+public class MoreFragment extends BaseFragment implements MoreFuncListAdapter.OnItemClickListener {
     private int[] icons = {R.drawable.more_online, R.drawable.more_bilibili,
             R.drawable.more_acfun, R.drawable.more_download,
             R.drawable.more_settings, R.drawable.more_update,
@@ -101,7 +92,7 @@ public class MoreFragment extends LazyFragment implements MoreFuncListAdapter.On
                     AppToast.showToast("网络不可用，请检查您的网络设置。");
                     return;
                 }
-                MoreFragmentPermissionsDispatcher.startCheckUpdateTaskWithCheck(this);
+                startCheckUpdateTask();
                 break;
             case 6:
                 // 关于XDPlayer
@@ -114,7 +105,6 @@ public class MoreFragment extends LazyFragment implements MoreFuncListAdapter.On
         }
     }
 
-    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     void startCheckUpdateTask() {
         CheckUpdateTask task = new CheckUpdateTask(new OnCheckUpdateCallback() {
             @Override
@@ -136,14 +126,4 @@ public class MoreFragment extends LazyFragment implements MoreFuncListAdapter.On
         task.execute();
     }
 
-    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    void permissionDenied() {
-        AppToast.showToast("权限不足，无法检查更新。");
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        MoreFragmentPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
-    }
 }

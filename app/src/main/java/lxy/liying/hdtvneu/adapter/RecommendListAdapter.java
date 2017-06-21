@@ -14,7 +14,6 @@ import lxy.liying.hdtvneu.activity.RecommendActivity;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/9/8 18:39
  * 版本：1.0
@@ -31,6 +30,7 @@ public class RecommendListAdapter extends BaseAdapter {
     private int[] desc;
 
     private Context context;
+    private ViewDetailsListener listener;
 
     public RecommendListAdapter(Context context, int[] icons, int[] name, int[] desc) {
         this.context = context;
@@ -56,9 +56,9 @@ public class RecommendListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        LayoutInflater listContainer = LayoutInflater.from(context);
+        final LayoutInflater listContainer = LayoutInflater.from(context);
         ListItemView listItemView = null;
-        if (convertView == null){
+        if (convertView == null) {
             listItemView = new ListItemView();
             //获取list_item布局文件的视图
             convertView = listContainer.inflate(R.layout.item_recommend, null);
@@ -70,7 +70,7 @@ public class RecommendListAdapter extends BaseAdapter {
             //设置控件集到convertView
             convertView.setTag(listItemView);
         } else {
-            listItemView = (ListItemView)convertView.getTag();
+            listItemView = (ListItemView) convertView.getTag();
         }
 
         listItemView.ivRecommendIcon.setImageResource(icons[position]);
@@ -79,7 +79,9 @@ public class RecommendListAdapter extends BaseAdapter {
         listItemView.btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RecommendActivity.getInstance().goToDownload(RecommendActivity.packageName[position]);
+                if (listener != null) {
+                    listener.viewDetails(RecommendActivity.packageName[position]);
+                }
             }
         });
         return convertView;
@@ -92,5 +94,16 @@ public class RecommendListAdapter extends BaseAdapter {
         public ImageView ivRecommendIcon;
         public TextView tvRecommendName, tvRecommendDesc;
         public Button btnDownload;
+    }
+
+    public void setViewDetailsListener(ViewDetailsListener listener) {
+        this.listener = listener;
+    }
+
+    /**
+     * 查看详情接口
+     */
+    public interface ViewDetailsListener {
+        void viewDetails(String packageName);
     }
 }

@@ -22,7 +22,6 @@ import lxy.liying.hdtvneu.view.BaseMediaController;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/6/22 12:33
  * 版本：1.0
@@ -46,8 +45,8 @@ public class PopupListAdapter extends BaseAdapter {
             for (int i = 0; i < App.reviewPrograms.size(); i++) {
                 this.programList.add(new PopupItem(App.reviewP, App.reviewPrograms.get(i).getName(), App.reviewPrograms.get(i).getTimeStart(), App.reviewPrograms.get(i).getTimeEnd()));
             }
-        } else if (App.programType.equals("1") || App.programType.equals("3") || App.programType.equals("4")) {
-            // 1、3、4：电视直播
+        } else if (App.programType.equals("1") || App.programType.equals("3")) {
+            // 1、3：电视直播
             for (Program program : App.programsList) {
                 this.programList.add(new PopupItem(program.getPath(), program.getName()));
             }
@@ -93,7 +92,7 @@ public class PopupListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 // 换频道
-                if ("1".equals(App.programType) || "3".equals(App.programType) || "4".equals(App.programType)) {
+                if ("1".equals(App.programType) || "3".equals(App.programType)) {
                     // IPv6视频直播
                     Uri videoUri = Uri.parse(popupItem.getPath());
                     controller.rePlay(videoUri);

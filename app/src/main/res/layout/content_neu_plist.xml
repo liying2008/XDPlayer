@@ -43,7 +43,7 @@
             android:layout_gravity="center"
             android:background="@drawable/btn_search_selector"
             android:layout_marginRight="17dp"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
     </LinearLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout

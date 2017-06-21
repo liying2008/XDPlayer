@@ -10,7 +10,6 @@ import lxy.liying.hdtvneu.utils.ProgramUrlUtils;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/8/14 20:40
  * 版本：1.0
@@ -23,8 +22,8 @@ public class NEU_RegexAllProgramsHtml {
     public static List<Program> getAllPrograms(String html) {
         // td >旅游卫视 <br /><a href="newplayer?p=lytv">播放
         // td style="background-color: #F0FFFF;">辽宁体育 <br /><a href="newplayer?p=dlut-lnty">播放
-        List<Program> programs = new ArrayList<>(150);
-        List<String> list = new ArrayList<>(150);
+        List<Program> programs = new ArrayList<>(180);
+        List<String> list = new ArrayList<>(180);
         // 定义规则
         String regex = "td .+播放";
         //将规则封装成对象

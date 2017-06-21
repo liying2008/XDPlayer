@@ -17,11 +17,10 @@ import java.util.List;
 
 import lxy.liying.hdtvneu.domain.BiliVideo;
 import lxy.liying.hdtvneu.service.callback.OnGetBiliVideoCallback;
-import lxy.liying.hdtvneu.utils.HtmlGetter;
+import lxy.liying.hdtvneu.utils.CommonUtils;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/8/22 20:59
  * 版本：1.0
@@ -78,7 +77,7 @@ public class ParseBiliHtmlTask extends AsyncTask<String, Void, Void> {
     private void searchAV(int avNum) {
         try {
             String url = "http://search.bilibili.com/all?keyword=" + avNum;
-            String html = HtmlGetter.getHtml(url, "UTF-8");
+            String html = CommonUtils.getHtml(url, "UTF-8");
             Document doc = Jsoup.parse(html);
 
             Element select = doc.select(".video").select(".list").select(".av").get(0);
@@ -86,12 +85,13 @@ public class ParseBiliHtmlTask extends AsyncTask<String, Void, Void> {
             Element mainHrefEle = select.getElementsByTag("a").get(0);
             // 得到视频链接
             String mainHref = mainHrefEle.attr("href");
+            mainHref = "http:" + mainHref.substring(0, mainHref.lastIndexOf('?'));
             // 得到视频标题
             String mainTitle = mainHrefEle.attr("title");
             // 得到视频AV号
             String mainAv = getAVNum(mainHref);
             // 得到图片地址
-            String mainCoverUrl= select.getElementsByTag("img").get(0).attr("src");
+            String mainCoverUrl= "http:" + select.getElementsByTag("img").get(0).attr("data-src");
             // 得到播放时间
             String mainTime= select.getElementsByTag("span").get(0).text();
 
@@ -132,13 +132,14 @@ public class ParseBiliHtmlTask extends AsyncTask<String, Void, Void> {
                     Element hrefEle = ele.getElementsByTag("a").get(0);
                     // 得到视频链接
                     String href = hrefEle.attr("href");
+                    href = "http:" + href.substring(0, href.lastIndexOf('?'));
                     // 得到视频标题
                     String title = hrefEle.attr("title");
                     // 得到视频AV号
                     String av = getAVNum(href);
                     Element img = ele.getElementsByTag("img").get(0);
                     // 得到图片地址
-                    String coverUrl = img.attr("src");
+                    String coverUrl = "http:" + img.attr("data-src");
                     // 得到播放时间
                     String time= ele.getElementsByTag("span").get(0).text();
 
@@ -150,8 +151,9 @@ public class ParseBiliHtmlTask extends AsyncTask<String, Void, Void> {
                     Element upInfo = info.get(3);
                     // 得到UP主姓名
                     String up = upInfo.getElementsByTag("a").text();
+                    BiliVideo biliVideo = new BiliVideo(coverUrl, av, title, up, watchInfo, time);
                     // 保存
-                    biliVideos.add(new BiliVideo(coverUrl, av, title, up, watchInfo, time));
+                    biliVideos.add(biliVideo);
                 }
             }
         } catch (Exception e) {
@@ -167,7 +169,7 @@ public class ParseBiliHtmlTask extends AsyncTask<String, Void, Void> {
      * @return
      */
     private JSONObject getJson(String url) throws JSONException {
-        String html = HtmlGetter.getHtml(url, "UTF-8");
+        String html = CommonUtils.getHtml(url, "UTF-8");
         return new JSONObject(html);
     }
 

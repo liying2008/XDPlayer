@@ -16,10 +16,10 @@ import java.util.Locale;
 import lxy.liying.hdtvneu.R;
 import lxy.liying.hdtvneu.app.App;
 import lxy.liying.hdtvneu.domain.XDVideo;
+import lxy.liying.hdtvneu.utils.CommonUtils;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/8/17 14:25
  * 版本：1.0
@@ -82,8 +82,8 @@ public class LocalListVideoAdapter extends RecyclerView.Adapter<LocalListVideoAd
         XDVideo video = videos.get(position);
         holder.tvVideoTitle.setText(video.getTitle());
         holder.tvVideoTitle.setTextColor(context.getResources().getColor(R.color.title_color));
-        holder.tvVideoSize.setText(getSizeString(video.getSize()));
-        holder.tvVideoDuration.setText(formatTime(video.getDuration()));
+        holder.tvVideoSize.setText(CommonUtils.getSizeString(video.getSize()));
+        holder.tvVideoDuration.setText(CommonUtils.formatTime((int) (video.getDuration() / 1000)));
         holder.ivThumbnail.setBackgroundDrawable(new BitmapDrawable(videos.get(position).getVideoThumbnail()));
         if (App.lastXdVideo != null && App.lastXdVideo.get_id() == video.get_id()) {
             // 设置文件名颜色
@@ -111,64 +111,6 @@ public class LocalListVideoAdapter extends RecyclerView.Adapter<LocalListVideoAd
                 }
             });
         }
-    }
-
-    /**
-     * 格式化视频大小，将字节转换为其他单位
-     * @param size
-     * @return
-     */
-    public static CharSequence getSizeString(long size) {
-        if (size > (1024 * 1024 * 1024)) {
-            // 以G为单位
-            double rlt = (double)size / (double)(1024 * 1024 * 1024);
-            return String.format(Locale.getDefault(), "%.3f", rlt) + "GB";
-        } else if (size > (1024 * 1024)) {
-            // 以M为单位
-            double rlt = (double)size / (double)(1024 * 1024);
-            return String.format(Locale.getDefault(), "%.2f", rlt) + "MB";
-        } else if (size > 1024) {
-            // 以K为单位
-            double rlt = (double)size / (double)(1024);
-            return String.format(Locale.getDefault(), "%.2f", rlt) + "KB";
-        } else {
-            // 以B为单位
-            return String.valueOf(size) + "B";
-        }
-
-    }
-
-    /**
-     * 格式化时间
-     *
-     * @return
-     * 格式：09:08:31
-     */
-    public static CharSequence formatTime(long msec) {
-        long sec = msec / 1000;
-        long h = sec / 3600;
-        long m = (sec % 3600) / 60;
-        long s = sec % 3600 % 60;
-        String out = "";
-        if (h > 0) {
-            if (h < 10) {
-                out += "0" + h + ":";
-            } else {
-                out += h + ":";
-            }
-        }
-        if (m < 10) {
-            out += "0" + m + ":";
-        } else {
-            out += m + ":";
-        }
-
-        if (s < 10) {
-            out += "0" + s + "";
-        } else {
-            out += s + "";
-        }
-        return out;
     }
 
     @Override

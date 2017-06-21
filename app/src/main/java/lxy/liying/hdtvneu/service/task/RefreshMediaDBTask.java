@@ -1,22 +1,20 @@
 package lxy.liying.hdtvneu.service.task;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.Locale;
 
 import lxy.liying.hdtvneu.fragment.LocalListFragment;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/9/9 14:42
  * 版本：1.0
@@ -26,10 +24,10 @@ import lxy.liying.hdtvneu.fragment.LocalListFragment;
  */
 public class RefreshMediaDBTask extends AsyncTask<Void, Void, Void> {
     private static final String TAG = "RefreshMediaDBTask";
-    private Context context;
+    private WeakReference<LocalListFragment> fragment;
 
-    public RefreshMediaDBTask(Context context) {
-        this.context = context;
+    public RefreshMediaDBTask(WeakReference<LocalListFragment> fragment) {
+        this.fragment = fragment;
     }
 
     @Override
@@ -60,10 +58,11 @@ public class RefreshMediaDBTask extends AsyncTask<Void, Void, Void> {
     }
 
     private void scanVideos(File file) {
-//        Log.i(TAG, "File = " + file.getAbsolutePath());
         Intent scanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         scanIntent.setData(Uri.fromFile(file));
-        context.sendBroadcast(scanIntent);
+        if (fragment.get() != null) {
+            fragment.get().getActivity().sendBroadcast(scanIntent);
+        }
     }
 
     private static String getSuffix(File file) {
@@ -82,7 +81,7 @@ public class RefreshMediaDBTask extends AsyncTask<Void, Void, Void> {
         }
     }
 
-    public static String getMimeType(File file) {
+    private static String getMimeType(File file) {
         String suffix = getSuffix(file);
         if (suffix == null) {
             return "file/*";
@@ -97,6 +96,8 @@ public class RefreshMediaDBTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        LocalListFragment.getInstance().startScanMediaDB();
+        if (fragment.get() != null) {
+            fragment.get().startScanMediaDB();
+        }
     }
 }

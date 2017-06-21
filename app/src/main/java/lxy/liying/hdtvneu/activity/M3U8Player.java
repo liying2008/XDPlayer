@@ -3,6 +3,7 @@ package lxy.liying.hdtvneu.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import cc.duduhuo.applicationtoast.AppToast;
@@ -11,7 +12,6 @@ import lxy.liying.hdtvneu.utils.Constants;
 
 /**
  * =======================================================
- * 版权：Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/5/17 21:31
  * 版本：1.0
@@ -53,6 +53,7 @@ public class M3U8Player extends PlayerActivity implements MediaPlayer.OnPrepared
                 AppToast.showToast("视频播放URL不正确", Toast.LENGTH_LONG);
                 return;
             }
+            Log.i(TAG, "initData: " + path);
             mVideoView.setVideoURI(Uri.parse(path));
         }
     }

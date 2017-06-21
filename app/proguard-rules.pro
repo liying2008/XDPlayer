@@ -69,15 +69,6 @@
 -keep class org.jsoup.** { *; }
 -keep interface org.jsoup.** { *; }
 
-# Fresco
-# Keep our interfaces so they can be used by other ProGuard rules.
-# See http://sourceforge.net/p/proguard/bugs/466/
--keep,allowobfuscation @interface com.facebook.common.internal.DoNotStrip
-# Do not strip any method/class that is annotated with @DoNotStrip
--keep @com.facebook.common.internal.DoNotStrip class *
--keepclassmembers class * {
-    @com.facebook.common.internal.DoNotStrip *;
-}
 # Keep native methods
 -keepclassmembers class * {
     native <methods>;
@@ -93,7 +84,18 @@
 }
 
 # 使用LruCache的类不被混淆
--keep class lxy.liying.hdtvneu.adapter.NEU_ProgramsAdapter {*;}
--keep class lxy.liying.hdtvneu.adapter.MarkIPv6Adapter {*;}
--keep class lxy.liying.hdtvneu.adapter.BY_ProgramsAdapter {*;}
--keep class lxy.liying.hdtvneu.adapter.QH_ProgramsAdapter {*;}
+-keep class lxy.liying.hdtvneu.adapter.MarkOnlineAdapter {*;}
+
+# Glide
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.AppGlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+-keepnames class lxy.liying.hdtvneu.glide.MyGlideModule
+# or more generally:
+-keep public class * implements com.bumptech.glide.module.GlideModule
+
+# for DexGuard only
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule

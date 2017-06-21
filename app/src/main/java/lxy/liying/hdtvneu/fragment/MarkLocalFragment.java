@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.flyco.dialog.entity.DialogMenuItem;
 import com.flyco.dialog.listener.OnOperItemClickL;
 import com.flyco.dialog.widget.NormalListDialog;
-import com.shizhefei.fragment.LazyFragment;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -33,14 +32,13 @@ import lxy.liying.hdtvneu.adapter.MarkLocalAdapter;
 import lxy.liying.hdtvneu.app.App;
 import lxy.liying.hdtvneu.domain.MarkGroup;
 import lxy.liying.hdtvneu.domain.MarkItem;
-import lxy.liying.hdtvneu.service.task.GetMarkVideoTask;
 import lxy.liying.hdtvneu.service.callback.OnGetMarkVideosCallback;
+import lxy.liying.hdtvneu.service.task.GetMarkVideoTask;
 import lxy.liying.hdtvneu.utils.Constants;
 import lxy.liying.hdtvneu.utils.RecyclerItemClickListener;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/8/14 14:45
  * 版本：1.0
@@ -48,7 +46,7 @@ import lxy.liying.hdtvneu.utils.RecyclerItemClickListener;
  * 备注：
  * =======================================================
  */
-public class MarkLocalFragment extends LazyFragment implements OnGetMarkVideosCallback, SwipeRefreshLayout.OnRefreshListener {
+public class MarkLocalFragment extends BaseFragment implements OnGetMarkVideosCallback, SwipeRefreshLayout.OnRefreshListener {
     private RecyclerView rvMarkLocal;
     public TextView tvMarkNone;
     public MarkLocalAdapter markLocalAdapter;
@@ -87,11 +85,7 @@ public class MarkLocalFragment extends LazyFragment implements OnGetMarkVideosCa
         progressDialog.show();
         rvMarkLocal = (RecyclerView) findViewById(R.id.rvMarkLocal);
         swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
-        swipeRefresh.setColorSchemeResources(android.R.color.holo_red_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_green_light,
-                android.R.color.holo_blue_bright
-        );
+        swipeRefresh.setColorSchemeResources(Constants.SWIPE_REFRESH_COLOR_SCHEME);
 
         rvMarkLocal.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvMarkLocal.setItemAnimator(new DefaultItemAnimator());
@@ -140,9 +134,9 @@ public class MarkLocalFragment extends LazyFragment implements OnGetMarkVideosCa
                 final MarkItem item = markLocalItems.get(position);
                 final NormalListDialog dialog = new NormalListDialog(getActivity(), mMenuItems);
                 dialog.title("请选择")//
-                        .showAnim(App.mBasIn)//
-                        .dismissAnim(App.mBasOut)//
-                        .show();
+                    .showAnim(App.mBasIn)//
+                    .dismissAnim(App.mBasOut)//
+                    .show();
                 dialog.setOnOperItemClickL(new OnOperItemClickL() {
                     @Override
                     public void onOperItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -170,7 +164,7 @@ public class MarkLocalFragment extends LazyFragment implements OnGetMarkVideosCa
                                         AppToast.showToast("视频标题不可为空。");
                                     } else {
                                         MarkItem newItem = new MarkItem(System.currentTimeMillis(), title,
-                                                item.getCoverPath(), MarkGroup.ONLINE, item.getPath(), item.getFolder(), 0L);
+                                            item.getCoverPath(), MarkGroup.ONLINE, item.getPath(), item.getFolder(), 0L);
                                         App.markService.updateMarkItemName(item.getMarkId(), title);
                                         AppToast.showToast("视频标题已修改。");
                                         // 刷新App中的onlineMarkItems
@@ -178,7 +172,10 @@ public class MarkLocalFragment extends LazyFragment implements OnGetMarkVideosCa
                                         App.localMarkItems.remove(location);
                                         App.localMarkItems.add(location, newItem);
                                         // 刷新MarkListFragment
-                                        MarkLocalFragment.getInstance().markLocalAdapter.updateData(item, newItem);
+                                        MarkLocalFragment fragment = MarkLocalFragment.getInstance();
+                                        if (fragment != null) {
+                                            fragment.markLocalAdapter.updateData(item, newItem);
+                                        }
                                     }
                                     dialog.dismiss();
                                 }
@@ -206,7 +203,7 @@ public class MarkLocalFragment extends LazyFragment implements OnGetMarkVideosCa
     /**
      * 删除收藏
      *
-     * @param item    MarkItem
+     * @param item MarkItem
      */
     private void removeMark(MarkItem item) {
         App.markService.removeMark(item.getMarkId());

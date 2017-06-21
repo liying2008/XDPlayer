@@ -31,12 +31,10 @@ public class ContextUtils {
 
 	public static String getDataDir(Context ctx) {
 		ApplicationInfo ai = ctx.getApplicationInfo();
-		if (ai.dataDir != null) {
+		if (ai.dataDir != null)
 			return fixLastSlash(ai.dataDir);
-		}
-		else {
+		else
 			return "/data/data/" + ai.packageName + "/";
-		}
 	}
 
 	public static String fixLastSlash(String str) {

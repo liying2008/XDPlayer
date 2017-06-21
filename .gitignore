@@ -1,14 +1,14 @@
 *.iml
 .gradle
+.classpath
+.project
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
 .DS_Store
 /build
-/captures
 *.apk
 *.ap_
 /app/build
 /vitamio/build
-/vitamio/bin
-/vitamio/gen
+.settings/

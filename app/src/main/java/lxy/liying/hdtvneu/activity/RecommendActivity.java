@@ -1,6 +1,5 @@
 package lxy.liying.hdtvneu.activity;
 
-import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,16 +8,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import java.lang.ref.WeakReference;
-
 import cc.duduhuo.applicationtoast.AppToast;
 import lxy.liying.hdtvneu.R;
 import lxy.liying.hdtvneu.adapter.RecommendListAdapter;
-import lxy.liying.hdtvneu.app.App;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/9/8 18:33
  * 版本：1.0
@@ -27,9 +22,6 @@ import lxy.liying.hdtvneu.app.App;
  * =======================================================
  */
 public class RecommendActivity extends BaseActivity {
-
-    private static WeakReference<RecommendActivity> recommendActivity;
-
     // 图标数组
     private static int[] icons = {R.drawable.circle_512x512, R.drawable.ipgw_512x512, R.drawable.sec_512x512};
     // 软件名称数组
@@ -56,20 +48,12 @@ public class RecommendActivity extends BaseActivity {
         ListView lvRecommend = (ListView) findViewById(R.id.lvRecommend);
         RecommendListAdapter adapter = new RecommendListAdapter(this, icons, name, desc);
         lvRecommend.setAdapter(adapter);
-
-        recommendActivity = new WeakReference<>(this);
-    }
-
-    /**
-     * 获取本Activity的实例
-     *
-     * @return
-     */
-    public static RecommendActivity getInstance() {
-        if (recommendActivity != null) {
-            return recommendActivity.get();
-        }
-        return null;
+        adapter.setViewDetailsListener(new RecommendListAdapter.ViewDetailsListener() {
+            @Override
+            public void viewDetails(String packageName) {
+                goToDetails(packageName);
+            }
+        });
     }
 
     /**
@@ -77,7 +61,7 @@ public class RecommendActivity extends BaseActivity {
      *
      * @param packageName 应用的包名
      */
-    public void goToDownload(String packageName) {
+    public void goToDetails(String packageName) {
         Uri uri = Uri.parse("market://details?id=" + packageName);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

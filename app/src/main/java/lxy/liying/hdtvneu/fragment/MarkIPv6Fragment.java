@@ -1,7 +1,6 @@
 package lxy.liying.hdtvneu.fragment;
 
 import android.app.ProgressDialog;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 import com.flyco.dialog.entity.DialogMenuItem;
 import com.flyco.dialog.listener.OnOperItemClickL;
 import com.flyco.dialog.widget.NormalListDialog;
-import com.shizhefei.fragment.LazyFragment;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -30,15 +28,14 @@ import lxy.liying.hdtvneu.activity.M3U8Player;
 import lxy.liying.hdtvneu.adapter.MarkIPv6Adapter;
 import lxy.liying.hdtvneu.app.App;
 import lxy.liying.hdtvneu.domain.MarkItem;
-import lxy.liying.hdtvneu.service.task.GetMarkVideoTask;
 import lxy.liying.hdtvneu.service.callback.OnGetMarkVideosCallback;
-import lxy.liying.hdtvneu.utils.Constants;
+import lxy.liying.hdtvneu.service.task.GetMarkVideoTask;
+import lxy.liying.hdtvneu.utils.CommonUtils;
 import lxy.liying.hdtvneu.utils.NetworkUtils;
 import lxy.liying.hdtvneu.utils.RecyclerItemClickListener;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/8/14 14:45
  * 版本：1.0
@@ -46,7 +43,7 @@ import lxy.liying.hdtvneu.utils.RecyclerItemClickListener;
  * 备注：
  * =======================================================
  */
-public class MarkIPv6Fragment extends LazyFragment implements OnGetMarkVideosCallback {
+public class MarkIPv6Fragment extends BaseFragment implements OnGetMarkVideosCallback {
     private RecyclerView rvMarkIPv6;
     public TextView tvMarkNone;
     public MarkIPv6Adapter markIPv6Adapter;
@@ -135,9 +132,9 @@ public class MarkIPv6Fragment extends LazyFragment implements OnGetMarkVideosCal
                 final MarkItem item = markIPv6Items.get(position);
                 final NormalListDialog dialog = new NormalListDialog(getActivity(), mMenuItems);
                 dialog.title("请选择")//
-                        .showAnim(App.mBasIn)//
-                        .dismissAnim(App.mBasOut)//
-                        .show();
+                    .showAnim(App.mBasIn)//
+                    .dismissAnim(App.mBasOut)//
+                    .show();
                 dialog.setOnOperItemClickL(new OnOperItemClickL() {
                     @Override
                     public void onOperItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -164,7 +161,7 @@ public class MarkIPv6Fragment extends LazyFragment implements OnGetMarkVideosCal
                                         AppToast.showToast("视频标题不可为空。");
                                     } else {
                                         MarkItem newItem = new MarkItem(System.currentTimeMillis(), title,
-                                                null, item.getGroup(), item.getPath(), item.getFolder(), 0L);
+                                            null, item.getGroup(), item.getPath(), item.getFolder(), 0L);
                                         App.markService.updateMarkItemName(item.getMarkId(), title);
                                         AppToast.showToast("视频标题已修改。");
                                         // 刷新App中的ipv6MarkItems
@@ -172,23 +169,17 @@ public class MarkIPv6Fragment extends LazyFragment implements OnGetMarkVideosCal
                                         App.ipv6MarkItems.remove(location);
                                         App.ipv6MarkItems.add(location, newItem);
                                         // 刷新MarkListFragment
-                                        MarkIPv6Fragment.getInstance().markIPv6Adapter.updateData(item, newItem);
+                                        MarkIPv6Fragment fragment = MarkIPv6Fragment.getInstance();
+                                        if (fragment != null) {
+                                            fragment.markIPv6Adapter.updateData(item, newItem);
+                                        }
                                     }
                                     dialog.dismiss();
                                 }
                             });
                         } else if (position == 2) {
                             // 分享视频
-                            Intent shareIntent = new Intent();
-                            shareIntent.setAction(Intent.ACTION_SEND);
-                            shareIntent.setType("text/*");
-                            shareIntent.putExtra(Intent.EXTRA_TEXT, item.getPath());
-                            ComponentName cn = shareIntent.resolveActivity(getActivity().getPackageManager());
-                            if (cn != null) {
-                                startActivity(Intent.createChooser(shareIntent, getString(R.string.share_to)));
-                            } else {
-                                AppToast.showToast("无法分享。");
-                            }
+                            CommonUtils.shareText(getActivity(), item.getPath());
                         }
                         dialog.dismiss();
                     }
@@ -200,7 +191,7 @@ public class MarkIPv6Fragment extends LazyFragment implements OnGetMarkVideosCal
     /**
      * 删除收藏
      *
-     * @param item    MarkItem
+     * @param item MarkItem
      */
     private void removeMark(MarkItem item) {
         App.markService.removeMark(item.getMarkId());

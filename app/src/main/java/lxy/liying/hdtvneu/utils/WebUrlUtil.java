@@ -4,7 +4,6 @@ import android.util.Log;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/9/12 14:04
  * 版本：1.0

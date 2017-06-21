@@ -13,7 +13,6 @@ import java.io.File;
 
 /**
  * =======================================================
- * 版权：Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying - liruoer2008@yeah.net
  * 日期：2015/6/28 13:16
  * 版本：1.0

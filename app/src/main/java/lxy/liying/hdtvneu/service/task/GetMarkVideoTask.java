@@ -14,7 +14,6 @@ import lxy.liying.hdtvneu.service.callback.OnGetMarkVideosCallback;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/9/11 12:47
  * 版本：1.0
@@ -72,8 +71,7 @@ public class GetMarkVideoTask extends AsyncTask<Void, Void, Void> {
             for (int i = 0; i < allMarks.size(); i++) {
                 MarkItem markItem = allMarks.get(i);
                 if (markItem.getGroup() == MarkGroup.NEU_TV ||
-                        markItem.getGroup() == MarkGroup.BY_TV ||
-                        markItem.getGroup() == MarkGroup.QH_TV) {
+                        markItem.getGroup() == MarkGroup.BY_TV) {
                     ipv6MarkItems.add(markItem);
                 } else if (markItem.getGroup() == MarkGroup.LOCAL) {
                     localMarkItems.add(markItem);

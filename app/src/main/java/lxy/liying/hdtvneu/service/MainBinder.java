@@ -7,15 +7,12 @@ import lxy.liying.hdtvneu.domain.AsyncSingleTask;
 import lxy.liying.hdtvneu.service.callback.On_BY_GetAllProgramsCallback;
 import lxy.liying.hdtvneu.service.callback.On_NEU_GetAllProgramsCallback;
 import lxy.liying.hdtvneu.service.callback.On_NEU_GetReviewProgramsCallback;
-import lxy.liying.hdtvneu.service.callback.On_QH_GetAllProgramsCallback;
 import lxy.liying.hdtvneu.service.task.BY_GetAllProgramsTask;
 import lxy.liying.hdtvneu.service.task.NEU_GetAllProgramsTask;
 import lxy.liying.hdtvneu.service.task.NEU_GetReviewProgramsTask;
-import lxy.liying.hdtvneu.service.task.QH_GetAllProgramsTask;
 
 /**
  * =======================================================
- * 版权：Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/5/15 15:54
  * 版本：1.0
@@ -50,15 +47,6 @@ public class MainBinder extends Binder {
      */
     public void by_getAllPrograms(On_BY_GetAllProgramsCallback onGetAllProgramsCallback) {
         BY_GetAllProgramsTask getAllPasswordTask = new BY_GetAllProgramsTask(onGetAllProgramsCallback);
-        getAllPasswordTask.execute();
-    }
-
-    /***
-     * 清华大学IPTV测试——获取所有节目
-     * @param onGetAllProgramsCallback 回调接口
-     */
-    public void qh_getAllPrograms(On_QH_GetAllProgramsCallback onGetAllProgramsCallback) {
-        QH_GetAllProgramsTask getAllPasswordTask = new QH_GetAllProgramsTask(onGetAllProgramsCallback);
         getAllPasswordTask.execute();
     }
 

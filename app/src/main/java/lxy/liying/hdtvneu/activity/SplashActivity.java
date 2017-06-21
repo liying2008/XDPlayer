@@ -4,13 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.umeng.analytics.MobclickAgent;
+
 import lxy.liying.hdtvneu.R;
 import lxy.liying.hdtvneu.app.App;
 import lxy.liying.hdtvneu.utils.Constants;
 
 /**
  * =======================================================
- * 版权：Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/5/19 15:32
  * 版本：1.0
@@ -22,6 +23,8 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // 设置是否对日志信息进行加密, 默认false(不加密).
+        MobclickAgent.enableEncrypt(true);
         setContentView(R.layout.activity_splash);
         new Handler().postDelayed(new Runnable() {
             @Override

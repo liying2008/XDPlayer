@@ -1,23 +1,23 @@
 package lxy.liying.hdtvneu.adapter;
 
-import android.content.Context;
-import android.net.Uri;
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
 import lxy.liying.hdtvneu.R;
 import lxy.liying.hdtvneu.domain.AcFunVideo;
+import lxy.liying.hdtvneu.utils.CommonUtils;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/8/22 20:46
  * 版本：1.0
@@ -26,7 +26,7 @@ import lxy.liying.hdtvneu.domain.AcFunVideo;
  * =======================================================
  */
 public class AcFunVideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private Context context;
+    private Activity activity;
     private List<AcFunVideo> acFunVideos;
     private OnItemClickListener mOnItemClickListener;
     private OnItemLongClickListener mOnItemLongClickListener;
@@ -56,8 +56,8 @@ public class AcFunVideoListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         this.mOnItemLongClickListener = onItemLongClickListener;
     }
 
-    public AcFunVideoListAdapter(Context context, List<AcFunVideo> acFunVideos) {
-        this.context = context;
+    public AcFunVideoListAdapter(Activity activity, List<AcFunVideo> acFunVideos) {
+        this.activity = activity;
         this.acFunVideos = acFunVideos;
     }
 
@@ -67,6 +67,7 @@ public class AcFunVideoListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     /**
      * 设置footerView信息
+     *
      * @param info
      */
     public void setFooterInfo(String info) {
@@ -76,13 +77,13 @@ public class AcFunVideoListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
-            View view = LayoutInflater.from(context).inflate(R.layout.item_acfun_video_list, parent, false);
+            View view = LayoutInflater.from(activity).inflate(R.layout.item_acfun_video_list, parent, false);
             return new ItemViewHolder(view);
         }
 
         // type == TYPE_FOOTER 返回footerView
         else if (viewType == TYPE_FOOTER) {
-            View view = LayoutInflater.from(context).inflate(R.layout.item_footer_view, parent, false);
+            View view = LayoutInflater.from(activity).inflate(R.layout.item_footer_view, parent, false);
             return new FooterViewHolder(view);
         }
         return null;
@@ -92,11 +93,13 @@ public class AcFunVideoListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemViewHolder) {
             AcFunVideo acFunVideo = acFunVideos.get(position);
-            ((ItemViewHolder) holder).tvTitle.setText(acFunVideo.getTitle());
-            ((ItemViewHolder) holder).tvTime.setText(formatTime(acFunVideo.getTime()));
-            ((ItemViewHolder) holder).tvViews.setText(acFunVideo.getViews());
-            ((ItemViewHolder) holder).tvUsername.setText(acFunVideo.getUsername());
-            ((ItemViewHolder) holder).ivCover.setImageURI(Uri.parse(acFunVideo.getTitleImg()));
+            ItemViewHolder itemHolder = (ItemViewHolder) holder;
+            itemHolder.tvTitle.setText(acFunVideo.getTitle());
+            itemHolder.tvTime.setText(CommonUtils.formatTime(acFunVideo.getTime()));
+            itemHolder.tvViews.setText(acFunVideo.getViews());
+            itemHolder.tvUsername.setText(acFunVideo.getUsername());
+            Glide.with(activity).load(acFunVideo.getTitleImg()).centerCrop()
+                .placeholder(R.drawable.acfun_default_image_tv).into(itemHolder.ivCover);
 
             // 如果设置了回调，则设置点击事件
             if (mOnItemClickListener != null) {
@@ -139,40 +142,9 @@ public class AcFunVideoListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
-    /**
-     * 格式化时间
-     *
-     * @return
-     * 格式：09:08:31
-     */
-    private static CharSequence formatTime(int sec) {
-        int h = sec / 3600;
-        int m = (sec % 3600) / 60;
-        int s = sec % 3600 % 60;
-        String out = "";
-        if (h > 0) {
-            if (h < 10) {
-                out += "0" + h + ":";
-            } else {
-                out += h + ":";
-            }
-        }
-        if (m < 10) {
-            out += "0" + m + ":";
-        } else {
-            out += m + ":";
-        }
-
-        if (s < 10) {
-            out += "0" + s + "";
-        } else {
-            out += s + "";
-        }
-        return out;
-    }
-
     private static class FooterViewHolder extends RecyclerView.ViewHolder {
         private TextView tvFooter;
+
         public FooterViewHolder(View view) {
             super(view);
             tvFooter = (TextView) view.findViewById(R.id.tvFooter);
@@ -181,7 +153,7 @@ public class AcFunVideoListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private static class ItemViewHolder extends RecyclerView.ViewHolder {
         private TextView tvTitle, tvUsername, tvViews, tvTime;
-        private SimpleDraweeView ivCover;
+        private ImageView ivCover;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
@@ -189,7 +161,7 @@ public class AcFunVideoListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             tvUsername = (TextView) itemView.findViewById(R.id.tvUsername);
             tvViews = (TextView) itemView.findViewById(R.id.tvViews);
             tvTime = (TextView) itemView.findViewById(R.id.tvTime);
-            ivCover = (SimpleDraweeView) itemView.findViewById(R.id.ivCover);
+            ivCover = (ImageView) itemView.findViewById(R.id.ivCover);
         }
     }
 }

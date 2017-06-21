@@ -12,7 +12,6 @@ import com.flyco.dialog.listener.OnBtnClickL;
 import com.flyco.dialog.listener.OnOperItemClickL;
 import com.flyco.dialog.widget.NormalDialog;
 import com.flyco.dialog.widget.NormalListDialog;
-import com.shizhefei.fragment.LazyFragment;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -27,7 +26,6 @@ import lxy.liying.hdtvneu.utils.RecyclerItemClickListener;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/8/14 14:52
  * 版本：1.0
@@ -35,7 +33,7 @@ import lxy.liying.hdtvneu.utils.RecyclerItemClickListener;
  * 备注：
  * =======================================================
  */
-public class DownloadingFragment extends LazyFragment {
+public class DownloadingFragment extends BaseFragment {
     private RecyclerView rvDownloading, rvWaitDownload;
     private TextView tvDownloadingNone, tvWaitDownloadNone;
     private DownloadingListAdapter downloadingAdapter;

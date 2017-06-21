@@ -12,7 +12,6 @@ import lxy.liying.hdtvneu.R;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/8/22 14:35
  * 版本：1.0
@@ -92,7 +91,7 @@ public class MoreFuncListAdapter extends RecyclerView.Adapter<MoreFuncListAdapte
         return icons.length;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvTitle;
         private ImageView ivIcon;
 

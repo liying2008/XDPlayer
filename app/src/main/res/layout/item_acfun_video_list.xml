@@ -18,11 +18,10 @@
         app:cardCornerRadius="4dp"
         app:cardElevation="5dp">
 
-        <com.facebook.drawee.view.SimpleDraweeView
+        <ImageView
             android:id="@+id/ivCover"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:placeholderImage="@drawable/acfun_default_image_tv"/>
+            android:layout_height="match_parent"/>
     </android.support.v7.widget.CardView>
 
     <LinearLayout

@@ -1,13 +1,11 @@
 package lxy.liying.hdtvneu.fragment;
 
-import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -21,7 +19,6 @@ import com.flyco.dialog.listener.OnBtnClickL;
 import com.flyco.dialog.listener.OnOperItemClickL;
 import com.flyco.dialog.widget.NormalDialog;
 import com.flyco.dialog.widget.NormalListDialog;
-import com.shizhefei.fragment.LazyFragment;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -41,13 +38,9 @@ import lxy.liying.hdtvneu.service.task.GetCacheVideoListTask;
 import lxy.liying.hdtvneu.service.task.RefreshMediaDBTask;
 import lxy.liying.hdtvneu.utils.Constants;
 import lxy.liying.hdtvneu.utils.DensityUtil;
-import permissions.dispatcher.NeedsPermission;
-import permissions.dispatcher.OnPermissionDenied;
-import permissions.dispatcher.RuntimePermissions;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/8/14 14:42
  * 版本：1.0
@@ -55,8 +48,7 @@ import permissions.dispatcher.RuntimePermissions;
  * 备注：
  * =======================================================
  */
-@RuntimePermissions
-public class LocalListFragment extends LazyFragment implements OnGetVideoFolderListener, LocalListAdapter.OnItemClickListener, LocalListAdapter.OnItemLongClickListener {
+public class LocalListFragment extends BaseFragment implements OnGetVideoFolderListener, LocalListAdapter.OnItemClickListener, LocalListAdapter.OnItemLongClickListener {
     public LocalListAdapter adapter;
     private List<VideoFolder> videoFolders;
     private ImageView ivSearch, ivRefresh;
@@ -96,6 +88,7 @@ public class LocalListFragment extends LazyFragment implements OnGetVideoFolderL
         videoFolders = new ArrayList<>();
         adapter = new LocalListAdapter(getActivity(), videoFolders);
         rvLocalList.setAdapter(adapter);
+        mInstance = new WeakReference<>(this);
 
         adapter.setOnItemClickListener(this);
         adapter.setOnItemLongClickListener(this);
@@ -104,7 +97,7 @@ public class LocalListFragment extends LazyFragment implements OnGetVideoFolderL
             public void onClick(View v) {
                 // 刷新视频列表数据
                 AppToast.showToast("正在刷新媒体数据库，请耐心等待……", Toast.LENGTH_LONG);
-                RefreshMediaDBTask task = new RefreshMediaDBTask(getActivity());
+                RefreshMediaDBTask task = new RefreshMediaDBTask(mInstance);
                 task.execute();
 
                 searchFinish = false;
@@ -117,7 +110,7 @@ public class LocalListFragment extends LazyFragment implements OnGetVideoFolderL
             public boolean onLongClick(View v) {
                 Toast toast = AppToast.getToast();
                 toast.setGravity(Gravity.TOP, (int) v.getX() - DensityUtil.dip2px(getActivity(), 10),
-                        (int) v.getY() + DensityUtil.dip2px(getActivity(), 20));
+                    (int) v.getY() + DensityUtil.dip2px(getActivity(), 20));
                 toast.setText("刷新视频列表");
                 toast.show();
                 return true;
@@ -127,7 +120,7 @@ public class LocalListFragment extends LazyFragment implements OnGetVideoFolderL
         ivSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SearchDialog dialog = new SearchDialog(LocalListFragment.this.getActivity());
+                SearchDialog dialog = new SearchDialog(getActivity());
                 dialog.show();
             }
         });
@@ -138,7 +131,7 @@ public class LocalListFragment extends LazyFragment implements OnGetVideoFolderL
             public boolean onLongClick(View v) {
                 Toast toast = AppToast.getToast();
                 toast.setGravity(Gravity.TOP, (int) v.getX() - DensityUtil.dip2px(getActivity(), 10),
-                        (int) v.getY() + DensityUtil.dip2px(getActivity(), 20));
+                    (int) v.getY() + DensityUtil.dip2px(getActivity(), 20));
                 toast.setText("搜索本地视频");
                 toast.show();
                 return true;
@@ -150,14 +143,11 @@ public class LocalListFragment extends LazyFragment implements OnGetVideoFolderL
             GetCacheVideoListTask task = new GetCacheVideoListTask(this);
             task.execute();
         } else {
-            // 获取权限
-            LocalListFragmentPermissionsDispatcher.startGetAllVideoFolderTaskWithCheck(this);
+            startGetAllVideoFolderTask();
         }
         mMenuItems.add(new DialogMenuItem("删除文件夹", R.drawable.ic_menu_delete));
-        mInstance = new WeakReference<>(this);
     }
 
-    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     void startGetAllVideoFolderTask() {
         AppToast.showToast("正在搜索视频文件……");
         new MyThread().start();
@@ -165,10 +155,6 @@ public class LocalListFragment extends LazyFragment implements OnGetVideoFolderL
         task.execute();
     }
 
-    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    void permissionDenied() {
-        AppToast.showToast("权限不足，无法扫描存储卡中的视频文件。");
-    }
     /**
      * 得到该Fragment实例
      *
@@ -188,8 +174,8 @@ public class LocalListFragment extends LazyFragment implements OnGetVideoFolderL
         videoFolders.clear();
         adapter.setData(videoFolders);
         adapter.notifyDataSetChanged();
-        // 获取权限
-        LocalListFragmentPermissionsDispatcher.startGetAllVideoFolderTaskWithCheck(this);
+
+        startGetAllVideoFolderTask();
     }
 
 
@@ -243,31 +229,31 @@ public class LocalListFragment extends LazyFragment implements OnGetVideoFolderL
     public void onItemLongClick(View view, final int position) {
         final NormalListDialog dialog = new NormalListDialog(getActivity(), mMenuItems);
         dialog.title("请选择")//
-                .showAnim(App.mBasIn)//
-                .dismissAnim(App.mBasOut)//
-                .show();
+            .showAnim(App.mBasIn)//
+            .dismissAnim(App.mBasOut)//
+            .show();
         dialog.setOnOperItemClickL(new OnOperItemClickL() {
             @Override
             public void onOperItemClick(AdapterView<?> parent, View view, int location, long id) {
                 if (location == 0) {
                     final NormalDialog dialog = App.getNormalDialog(getActivity(),
-                            "确定要删除该文件夹下的所有视频？\n(同时从SD中删除)");
+                        "确定要删除该文件夹下的所有视频？\n(同时从SD中删除)");
                     dialog.setOnBtnClickL(
-                            new OnBtnClickL() {
-                                @Override
-                                public void onBtnClick() {
-                                    // 取消
-                                    dialog.dismiss();
-                                }
-                            },
-                            new OnBtnClickL() {
-                                @Override
-                                public void onBtnClick() {
-                                    // 确定
-                                    deleteXDVideos(videoFolders.get(position));
-                                    dialog.dismiss();
-                                }
-                            });
+                        new OnBtnClickL() {
+                            @Override
+                            public void onBtnClick() {
+                                // 取消
+                                dialog.dismiss();
+                            }
+                        },
+                        new OnBtnClickL() {
+                            @Override
+                            public void onBtnClick() {
+                                // 确定
+                                deleteXDVideos(videoFolders.get(position));
+                                dialog.dismiss();
+                            }
+                        });
                 }
                 dialog.dismiss();
             }
@@ -276,6 +262,7 @@ public class LocalListFragment extends LazyFragment implements OnGetVideoFolderL
 
     /**
      * 删除XDVideos
+     *
      * @param videoFolder
      */
     private void deleteXDVideos(final VideoFolder videoFolder) {
@@ -299,11 +286,5 @@ public class LocalListFragment extends LazyFragment implements OnGetVideoFolderL
                 message.sendToTarget();
             }
         }).start();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        LocalListFragmentPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 }

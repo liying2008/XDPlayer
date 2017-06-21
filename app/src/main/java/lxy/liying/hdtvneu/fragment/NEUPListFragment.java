@@ -18,8 +18,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.shizhefei.fragment.LazyFragment;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,10 +28,10 @@ import lxy.liying.hdtvneu.domain.Program;
 import lxy.liying.hdtvneu.service.MainBinder;
 import lxy.liying.hdtvneu.service.MainService;
 import lxy.liying.hdtvneu.service.callback.On_NEU_GetAllProgramsCallback;
+import lxy.liying.hdtvneu.utils.Constants;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/8/14 14:51
  * 版本：1.0
@@ -41,35 +39,23 @@ import lxy.liying.hdtvneu.service.callback.On_NEU_GetAllProgramsCallback;
  * 备注：
  * =======================================================
  */
-public class NEUPListFragment extends LazyFragment implements On_NEU_GetAllProgramsCallback, SwipeRefreshLayout.OnRefreshListener {
-    /**
-     * 数据
-     */
+public class NEUPListFragment extends BaseFragment implements On_NEU_GetAllProgramsCallback, SwipeRefreshLayout.OnRefreshListener {
+    /** 数据 */
     private NEU_ProgramsAdapter programsAdapter;
-    /**
-     * 数据源
-     */
+    /** 数据源 */
     private MainBinder mainBinder;
-    /**
-     * 节目列表视图
-     */
+    /** 节目列表视图 */
     private RecyclerView rvPrograms;
     private TextView tvTotal;
     private ProgressDialog progressDialog;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Button btnSearch;
     private EditText etSearchProgram;
-    /**
-     * 节目列表
-     */
+    /** 节目列表 */
     private List<Program> mProgramsList;
-    /**
-     * 搜索到的节目列表
-     */
+    /** 搜索到的节目列表  */
     private List<Program> mSearchList = new ArrayList<>(150);
-    /**
-     * 是否处于搜索状态
-     */
+    /** 是否处于搜索状态 */
     private static boolean isSearching = false;
 
     @Override
@@ -88,11 +74,7 @@ public class NEUPListFragment extends LazyFragment implements On_NEU_GetAllProgr
         btnSearch = (Button) findViewById(R.id.btnSearch);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_red_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_green_light,
-                android.R.color.holo_blue_bright
-        );
+        swipeRefreshLayout.setColorSchemeResources(Constants.SWIPE_REFRESH_COLOR_SCHEME);
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("正在获取节目列表...");
         progressDialog.setCanceledOnTouchOutside(false);
@@ -210,14 +192,13 @@ public class NEUPListFragment extends LazyFragment implements On_NEU_GetAllProgr
     public void onRefresh() {
         if (!isSearching) {
             btnSearch.setVisibility(View.GONE);
-            programsAdapter.clearCache();
             mainBinder.neu_getAllPrograms(this);
         } else {
             swipeRefreshLayout.setRefreshing(false);
         }
     }
 
-    class SearchTextWatcher implements TextWatcher {
+    private class SearchTextWatcher implements TextWatcher {
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {

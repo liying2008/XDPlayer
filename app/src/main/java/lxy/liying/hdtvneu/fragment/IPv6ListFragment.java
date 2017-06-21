@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.shizhefei.fragment.LazyFragment;
 import com.shizhefei.view.indicator.Indicator;
 import com.shizhefei.view.indicator.IndicatorViewPager;
 import com.shizhefei.view.indicator.slidebar.ColorBar;
@@ -23,7 +22,6 @@ import lxy.liying.hdtvneu.utils.Constants;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/8/14 13:27
  * 版本：1.0
@@ -31,9 +29,9 @@ import lxy.liying.hdtvneu.utils.Constants;
  * 备注：
  * =======================================================
  */
-public class IPv6ListFragment extends LazyFragment {
+public class IPv6ListFragment extends BaseFragment {
     private LayoutInflater inflate;
-    private String[] tabName = {"东北大学HDTV", "北邮人IPTV", "清华大学IPTV"};
+    private String[] tabName = {"东北大学HDTV", "北邮人IPTV"};
 
     @Override
     protected void onCreateViewLazy(Bundle savedInstanceState) {
@@ -52,7 +50,7 @@ public class IPv6ListFragment extends LazyFragment {
         int unSelectColor = res.getColor(R.color.tab_top_text_1);
         indicator.setOnTransitionListener(new OnTransitionTextListener().setColor(selectColor, unSelectColor).setSize(selectSize, unSelectSize));
 
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(2);
 
         IndicatorViewPager indicatorViewPager = new IndicatorViewPager(indicator, viewPager);
         inflate = LayoutInflater.from(getApplicationContext());
@@ -62,6 +60,7 @@ public class IPv6ListFragment extends LazyFragment {
         indicatorViewPager.setAdapter(new MyAdapter(getChildFragmentManager()));
         // 设置默认展示页
         int page = Integer.parseInt(App.getInstance().getSetting(Constants.IPV6_HOME, "0"));
+        if (page == 2) page = 1;    // 原清华测试站已删除，使用北邮人代替
         indicatorViewPager.setCurrentItem(page, false);
     }
 
@@ -92,8 +91,6 @@ public class IPv6ListFragment extends LazyFragment {
                 return new NEUPListFragment();
             } else if (position == 1) {
                 return new BYRPListFragment();
-            } else if (position == 2) {
-                return new QHPListFragment();
             }
             return null;
         }

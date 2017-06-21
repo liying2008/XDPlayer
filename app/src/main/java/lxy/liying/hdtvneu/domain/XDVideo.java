@@ -5,7 +5,6 @@ import java.io.Serializable;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/8/17 15:39
  * 版本：1.0
@@ -14,69 +13,37 @@ import java.io.Serializable;
  * =======================================================
  */
 public class XDVideo implements Serializable{
-    /**
-     * 视频ID
-     */
+    /** 视频ID */
     private long _id;
-    /**
-     * 视频所属文件夹
-     */
+    /** 视频所属文件夹 */
     private String folder;
-    /**
-     * 视频缩略图路径
-     */
+    /** 视频缩略图路径  */
     private String videoThumbnail;
-    /**
-     * 视频标题
-     */
+    /** 视频标题  */
     private String title;
-    /**
-     * 视频大小
-     */
+    /** 视频大小  */
     private long size;
-    /**
-     * 视频时长
-     */
+    /** 视频时长 */
     private long duration;
-    /**
-     * 视频完整路径
-     */
+    /** 视频完整路径 */
     private String data;
-    /**
-     * 显示文件名
-     */
+    /** 显示文件名 */
     private String displayName;
-    /**
-     * 视频类型
-     */
+    /** 视频类型 */
     private String mimeType;
-    /**
-     * 创建时间
-     */
+    /** 创建时间 */
     private long dateAdded;
-    /**
-     * 上次修改时间
-     */
+    /** 上次修改时间  */
     private long dateModified;
-    /**
-     * 艺术家
-     */
+    /** 艺术家  */
     private String artist;
-    /**
-     * 专辑
-     */
+    /** 专辑 */
     private String album;
-    /**
-     * 分辨率
-     */
+    /** 分辨率  */
     private String resolution;
-    /**
-     * 描述
-     */
+    /** 描述 */
     private String description;
-    /**
-     * 上次观看位置
-     */
+    /** 上次观看位置 */
     private long position = 0L;
 
     public static final String _ID = "_id";
@@ -282,5 +249,10 @@ public class XDVideo implements Serializable{
             }
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (_id ^ (_id >>> 32));
     }
 }

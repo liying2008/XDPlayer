@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.flyco.dialog.listener.OnBtnClickL;
 import com.flyco.dialog.widget.NormalDialog;
-import com.shizhefei.fragment.LazyFragment;
 import com.shizhefei.view.indicator.Indicator;
 import com.shizhefei.view.indicator.IndicatorViewPager;
 import com.shizhefei.view.indicator.slidebar.ColorBar;
@@ -32,7 +31,6 @@ import lxy.liying.hdtvneu.utils.Constants;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/8/14 14:45
  * 版本：1.0
@@ -40,7 +38,7 @@ import lxy.liying.hdtvneu.utils.Constants;
  * 备注：
  * =======================================================
  */
-public class MarkListFragment extends LazyFragment {
+public class MarkListFragment extends BaseFragment {
     private LayoutInflater inflate;
     private String[] tabName = {"IPv6电视", "本地视频", "B&A", "其他"};
 

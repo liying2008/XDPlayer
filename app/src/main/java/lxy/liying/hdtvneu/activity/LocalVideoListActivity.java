@@ -38,7 +38,6 @@ import lxy.liying.hdtvneu.utils.Constants;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/8/17 21:10
  * 版本：1.0
@@ -112,7 +111,10 @@ public class LocalVideoListActivity extends BaseActivity implements LocalListVid
      */
     private void refreshListColor() {
         adapter.notifyDataSetChanged();
-        LocalListFragment.getInstance().adapter.notifyDataSetChanged();
+        LocalListFragment fragment = LocalListFragment.getInstance();
+        if (fragment != null) {
+            fragment.adapter.notifyDataSetChanged();
+        }
     }
 
     /**
@@ -126,9 +128,9 @@ public class LocalVideoListActivity extends BaseActivity implements LocalListVid
         final XDVideo video = App.xdVideos.get(position);
         final NormalListDialog dialog = new NormalListDialog(this, mMenuItems);
         dialog.title("请选择")//
-                .showAnim(App.mBasIn)//
-                .dismissAnim(App.mBasOut)//
-                .show();
+            .showAnim(App.mBasIn)//
+            .dismissAnim(App.mBasOut)//
+            .show();
         dialog.setOnOperItemClickL(new OnOperItemClickL() {
             @Override
             public void onOperItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -137,17 +139,18 @@ public class LocalVideoListActivity extends BaseActivity implements LocalListVid
                         // 收藏该视频
                         if (App.markService.getMarkByPath(video.getData()) == null) {
                             MarkItem item = new MarkItem(System.currentTimeMillis(), video.getTitle(), video.getVideoThumbnail(),
-                                    MarkGroup.LOCAL, video.getData(), video.getFolder(), video.getPosition());
+                                MarkGroup.LOCAL, video.getData(), video.getFolder(), video.getPosition());
                             App.markService.addMarkVideo(item);
                             AppToast.showToast("视频已收藏。");
                             if (App.localMarkItems != null) {
                                 App.localMarkItems.add(item);
                             }
-                            if (MarkLocalFragment.getInstance() != null) {
+                            MarkLocalFragment instance = MarkLocalFragment.getInstance();
+                            if (instance != null) {
                                 // 刷新MarkListFragment
-                                MarkLocalFragment.getInstance().markLocalAdapter.addData(item);
-                                MarkLocalFragment.getInstance().markLocalAdapter.notifyDataSetChanged();
-                                MarkLocalFragment.getInstance().tvMarkNone.setVisibility(View.GONE);
+                                instance.markLocalAdapter.addData(item);
+                                instance.markLocalAdapter.notifyDataSetChanged();
+                                instance.tvMarkNone.setVisibility(View.GONE);
                             }
                         } else {
                             AppToast.showToast("视频已在收藏列表中。");
@@ -156,23 +159,23 @@ public class LocalVideoListActivity extends BaseActivity implements LocalListVid
                     case 1:
                         // 删除视频文件
                         final NormalDialog dialog = App.getNormalDialog(LocalVideoListActivity.this,
-                                "确定删除该视频?\n(同时从SD卡上删除)");
+                            "确定删除该视频?\n(同时从SD卡上删除)");
                         dialog.setOnBtnClickL(
-                                new OnBtnClickL() {
-                                    @Override
-                                    public void onBtnClick() {
-                                        // 取消
-                                        dialog.dismiss();
-                                    }
-                                },
-                                new OnBtnClickL() {
-                                    @Override
-                                    public void onBtnClick() {
-                                        // 确定
-                                        deleteXDVideo(video);
-                                        dialog.dismiss();
-                                    }
-                                });
+                            new OnBtnClickL() {
+                                @Override
+                                public void onBtnClick() {
+                                    // 取消
+                                    dialog.dismiss();
+                                }
+                            },
+                            new OnBtnClickL() {
+                                @Override
+                                public void onBtnClick() {
+                                    // 确定
+                                    deleteXDVideo(video);
+                                    dialog.dismiss();
+                                }
+                            });
                         break;
                     case 2:
                         // 查看视频详细信息

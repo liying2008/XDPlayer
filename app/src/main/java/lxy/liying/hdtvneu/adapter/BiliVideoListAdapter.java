@@ -1,14 +1,14 @@
 package lxy.liying.hdtvneu.adapter;
 
-import android.content.Context;
-import android.net.Uri;
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -17,7 +17,6 @@ import lxy.liying.hdtvneu.domain.BiliVideo;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/8/22 20:46
  * 版本：1.0
@@ -26,7 +25,7 @@ import lxy.liying.hdtvneu.domain.BiliVideo;
  * =======================================================
  */
 public class BiliVideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private Context context;
+    private Activity activity;
     private List<BiliVideo> biliVideos;
     private OnItemClickListener mOnItemClickListener;
     private OnItemLongClickListener mOnItemLongClickListener;
@@ -56,8 +55,8 @@ public class BiliVideoListAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.mOnItemLongClickListener = onItemLongClickListener;
     }
 
-    public BiliVideoListAdapter(Context context, List<BiliVideo> biliVideos) {
-        this.context = context;
+    public BiliVideoListAdapter(Activity activity, List<BiliVideo> biliVideos) {
+        this.activity = activity;
         this.biliVideos = biliVideos;
     }
 
@@ -67,6 +66,7 @@ public class BiliVideoListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     /**
      * 设置footerView信息
+     *
      * @param info
      */
     public void setFooterInfo(String info) {
@@ -76,13 +76,13 @@ public class BiliVideoListAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
-            View view = LayoutInflater.from(context).inflate(R.layout.item_bili_video_list, parent, false);
+            View view = LayoutInflater.from(activity).inflate(R.layout.item_bili_video_list, parent, false);
             return new ItemViewHolder(view);
         }
 
         // type == TYPE_FOOTER 返回footerView
         else if (viewType == TYPE_FOOTER) {
-            View view = LayoutInflater.from(context).inflate(R.layout.item_footer_view, parent, false);
+            View view = LayoutInflater.from(activity).inflate(R.layout.item_footer_view, parent, false);
             return new FooterViewHolder(view);
         }
         return null;
@@ -92,11 +92,13 @@ public class BiliVideoListAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemViewHolder) {
             BiliVideo biliVideo = biliVideos.get(position);
-            ((ItemViewHolder) holder).tvTitle.setText(biliVideo.getTitle());
-            ((ItemViewHolder) holder).tvTime.setText(biliVideo.getTime());
-            ((ItemViewHolder) holder).tvPlay.setText(biliVideo.getPlay());
-            ((ItemViewHolder) holder).tvUp.setText(biliVideo.getUp());
-            ((ItemViewHolder) holder).ivCover.setImageURI(Uri.parse(biliVideo.getCoverUrl()));
+            ItemViewHolder itemHolder = (ItemViewHolder) holder;
+            itemHolder.tvTitle.setText(biliVideo.getTitle());
+            itemHolder.tvTime.setText(biliVideo.getTime());
+            itemHolder.tvPlay.setText(biliVideo.getPlay());
+            itemHolder.tvUp.setText(biliVideo.getUp());
+            Glide.with(activity).load(biliVideo.getCoverUrl()).centerCrop()
+                .placeholder(R.drawable.bili_default_image_tv).into(itemHolder.ivCover);
 
             // 如果设置了回调，则设置点击事件
             if (mOnItemClickListener != null) {
@@ -141,6 +143,7 @@ public class BiliVideoListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private static class FooterViewHolder extends RecyclerView.ViewHolder {
         private TextView tvFooter;
+
         public FooterViewHolder(View view) {
             super(view);
             tvFooter = (TextView) view.findViewById(R.id.tvFooter);
@@ -149,7 +152,7 @@ public class BiliVideoListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private static class ItemViewHolder extends RecyclerView.ViewHolder {
         private TextView tvTitle, tvUp, tvPlay, tvTime;
-        private SimpleDraweeView ivCover;
+        private ImageView ivCover;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
@@ -157,7 +160,7 @@ public class BiliVideoListAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvUp = (TextView) itemView.findViewById(R.id.tvUp);
             tvPlay = (TextView) itemView.findViewById(R.id.tvPlay);
             tvTime = (TextView) itemView.findViewById(R.id.tvTime);
-            ivCover = (SimpleDraweeView) itemView.findViewById(R.id.ivCover);
+            ivCover = (ImageView) itemView.findViewById(R.id.ivCover);
         }
     }
 }

@@ -6,19 +6,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.flyco.animation.BounceEnter.BounceTopEnter;
-import com.flyco.animation.SlideExit.SlideBottomExit;
 import com.flyco.dialog.utils.CornerUtils;
 import com.flyco.dialog.widget.base.BaseDialog;
 
 import lxy.liying.hdtvneu.R;
-import lxy.liying.hdtvneu.adapter.LocalListVideoAdapter;
 import lxy.liying.hdtvneu.app.App;
 import lxy.liying.hdtvneu.domain.XDVideo;
+import lxy.liying.hdtvneu.utils.CommonUtils;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/9/10 22:14
  * 版本：1.0
@@ -47,9 +44,9 @@ public class XDVideoInfoDialog extends BaseDialog<XDVideoInfoDialog> {
         ((TextView) contentView.findViewById(R.id.tvAlbum)).setText(video.getAlbum());
         ((TextView) contentView.findViewById(R.id.tvArtist)).setText(video.getArtist());
         ((TextView) contentView.findViewById(R.id.tvSize)).
-                setText(LocalListVideoAdapter.getSizeString(video.getSize()));
+                setText(CommonUtils.getSizeString(video.getSize()));
         ((TextView) contentView.findViewById(R.id.tvDuration)).
-                setText(LocalListVideoAdapter.formatTime(video.getDuration()));
+                setText(CommonUtils.formatTime((int) (video.getDuration() / 1000)));
         ((TextView) contentView.findViewById(R.id.tvMimeType)).setText(video.getMimeType());
         ((TextView) contentView.findViewById(R.id.tvResolution)).setText(video.getResolution());
 

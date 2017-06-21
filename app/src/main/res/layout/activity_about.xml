@@ -4,7 +4,6 @@
               android:id="@+id/container"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@drawable/main_bg"
               android:orientation="vertical"
               tools:context=".activity.AboutActivity">
 
@@ -155,26 +154,7 @@
 
             <RelativeLayout
                 style="@style/AboutItemRL"
-                android:background="@drawable/selector_middle"
-                android:onClick="onOfficialWebsite">
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.7dp"
-                    android:background="@color/line_color"/>
-
-                <TextView
-                    style="@style/AboutItemLeftText"
-                    android:text="@string/about_official_website"/>
-
-                <TextView
-                    style="@style/AboutItemRightText"
-                    android:text="@string/web_site"/>
-            </RelativeLayout>
-
-            <RelativeLayout
-                style="@style/AboutItemRL"
-                android:background="@drawable/selector_middle"
+                android:background="@drawable/selector_bottom"
                 android:onClick="onShareClick">
 
                 <View

@@ -2,10 +2,8 @@ package lxy.liying.hdtvneu.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
@@ -16,7 +14,6 @@ import lxy.liying.hdtvneu.utils.Constants;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/9/15 14:17
  * 版本：1.0
@@ -25,11 +22,10 @@ import lxy.liying.hdtvneu.utils.Constants;
  * =======================================================
  */
 public class SettingsActivity extends BaseActivity {
-    private SwitchCompat switchPreview;
     private Spinner spinnerIPv6Pages, spinnerMarkPages;
-    private static boolean isChecked;
     private static int ipv6Home;
     private static int markHome;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +39,6 @@ public class SettingsActivity extends BaseActivity {
                 overridePendingTransition(R.anim.push_right_in_ac, R.anim.push_right_out_ac);
             }
         });
-        switchPreview = (SwitchCompat) findViewById(R.id.switchPreview);
         spinnerIPv6Pages = (Spinner) findViewById(R.id.spinnerIPv6Pages);
         spinnerMarkPages = (Spinner) findViewById(R.id.spinnerMarkPages);
 
@@ -54,48 +49,13 @@ public class SettingsActivity extends BaseActivity {
      * 初始化数据
      */
     private void initData() {
-        String ipv6Preview = App.getInstance().getSetting(Constants.IPV6_PREVIEW, "1");
         int ipv6Home = Integer.parseInt(App.getInstance().getSetting(Constants.IPV6_HOME, "0"));
         final int markHome = Integer.parseInt(App.getInstance().getSetting(Constants.MARK_HOME, "0"));
-
-        // TODO: 2016/12/30 暂时不支持打开预览
-        /***************************************
-        if (ipv6Preview.equals("1")) {
-            isChecked = true;
-            switchPreview.setChecked(true);
-        } else {
-            isChecked = false;
-            switchPreview.setChecked(false);
-        }
-         *************************************/
-        //******************************
-        isChecked = false;
-        switchPreview.setChecked(false);
-        //******************************
 
         SettingsActivity.ipv6Home = ipv6Home;
         spinnerIPv6Pages.setSelection(ipv6Home, false);
         SettingsActivity.markHome = markHome;
         spinnerMarkPages.setSelection(markHome, false);
-
-        switchPreview.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    if (!SettingsActivity.isChecked) {
-                        App.getInstance().putSetting(Constants.IPV6_PREVIEW, "1");
-                        AppToast.showToast("设置已保存。");
-                        SettingsActivity.isChecked = true;
-                    }
-                } else {
-                    if (SettingsActivity.isChecked) {
-                        App.getInstance().putSetting(Constants.IPV6_PREVIEW, "0");
-                        AppToast.showToast("设置已保存。");
-                        SettingsActivity.isChecked = false;
-                    }
-                }
-            }
-        });
 
         spinnerIPv6Pages.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

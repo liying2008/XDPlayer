@@ -13,13 +13,13 @@ import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.flyco.animation.BaseAnimatorSet;
 import com.flyco.animation.BounceEnter.BounceTopEnter;
 import com.flyco.animation.SlideExit.SlideBottomExit;
 import com.flyco.dialog.widget.NormalDialog;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.shizhefei.fragment.LazyFragment;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -40,7 +40,6 @@ import lxy.liying.hdtvneu.utils.Downloader;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/8/14 16:11
  * 版本：1.0
@@ -49,45 +48,30 @@ import lxy.liying.hdtvneu.utils.Downloader;
  * =======================================================
  */
 public class App extends Application {
-    /**
-     * 上次点击屏幕的时间
-     */
+    /** 上次点击屏幕的时间 */
     public static long lastTapTime = -1L;
     /**
      * 节目类型：<br/>
      * 1：东北大学IPv6视频直播<br/>
      * 2：东北大学IPv6视频回看<br/>
      * 3：北邮IPv6视频直播<br/>
-     * 4：清华大学IPTV<br/>
      * 5：本地视频列表<br/>
      * -1：其他<br/>
      * -2：在线视频<br/>
      * -3：哔哩哔哩视频<br/>
      */
     public static String programType = "-1";
-    /**
-     * 节目列表
-     */
+    /** 节目列表 */
     public static List<Program> programsList;
-    /**
-     * 回看节目列表
-     */
+    /** 回看节目列表 */
     public static List<ReviewProgram> reviewPrograms;
-    /**
-     * 回看节目的频道
-     */
+    /** 回看节目的频道  */
     public static String reviewP;
-    /**
-     * 当前Application的实例
-     */
+    /** 当前Application的实例  */
     private static App mInstance;
-    /**
-     * 配置文件
-     */
+    /** 配置文件  */
     private SharedPreferences sharedPreferences;
-    /**
-     * 当前Fragment
-     */
+    /** 当前Fragment */
     public LazyFragment currentFragment;
     public static List<XDVideo> xdVideos;
     /** 是否有视频列表的缓存 */
@@ -116,11 +100,12 @@ public class App extends Application {
         loadSettings(); // 加载设置
         // 检查工作目录
         checkWorkDir();
+        // 统计场景类型设置
+        MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
 
         xdService = new XDVideoService(this);
         markService = new MarkService(this);
         downloadService = new DownloadService(this);
-        Fresco.initialize(this);    // 初始化Fresco类
         // 初始化下载引擎
         FileDownloader.init(this);
         // 初始化AppToast
@@ -132,9 +117,7 @@ public class App extends Application {
         Vitamio.isInitialized(this);
     }
 
-    /**
-     * 得到本Application实例
-     */
+    /** 得到本Application实例 */
     public static App getInstance() {
         return mInstance;
     }
@@ -147,6 +130,10 @@ public class App extends Application {
         if (!dir.exists()) {
             dir.mkdirs();
         }
+        dir = new File(Constants.COVER);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
         dir = new File(Constants.ONLINE_DOWNLOAD);
         if (!dir.exists()) {
             dir.mkdirs();
@@ -156,9 +143,7 @@ public class App extends Application {
             dir.mkdirs();
         }
     }
-    /**
-     * 加载设置，应用启动自动加载
-     */
+    /** 加载设置，应用启动自动加载 */
     private void loadSettings() {
         sharedPreferences = getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
     }

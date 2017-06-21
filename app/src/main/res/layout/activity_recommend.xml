@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_bg"
     android:orientation="vertical"
     tools:context="lxy.liying.hdtvneu.activity.RecommendActivity">
 

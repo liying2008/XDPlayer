@@ -10,7 +10,6 @@ import lxy.liying.hdtvneu.utils.ProgramUrlUtils;
 
 /**
  * =======================================================
- * 版权：©Copyright LiYing 2015-2016. All rights reserved.
  * 作者：liying
  * 日期：2016/8/14 20:40
  * 版本：1.0
@@ -21,7 +20,7 @@ import lxy.liying.hdtvneu.utils.ProgramUrlUtils;
 public class BYR_RegexAllProgramsHtml {
 
     public static List<Program> getAllPrograms(String html) {
-        // <a href="http://tv6.byr.cn/hls/zjhd.m3u8" target="_blank" class="btn btn-block btn-primary">浙江卫视高清</a>
+        // <a href="//tv6.byr.cn/hls/cctv5hd.m3u8" target="_blank" class="btn btn-block btn-primary">CCTV-5高清</a>
         List<Program> programs = new ArrayList<>(150);
 
         List<String> list = new ArrayList<>(150);
@@ -37,10 +36,10 @@ public class BYR_RegexAllProgramsHtml {
             list.add(m.group());
         }
 
-        // href="http://tv6.byr.cn/hls/zjhd.m3u8" target="_blank" class="btn btn-block btn-primary">浙江卫视高清</a
+        // href="//tv6.byr.cn/hls/cctv5hd.m3u8" target="_blank" class="btn btn-block btn-primary">CCTV-5高清</a
         for (int i = 0; i < list.size(); i++) {
             String s = list.get(i);
-            s = s.replace("href=\"http://tv6.byr.cn/hls/", "").replace(".m3u8\" ", "").replace("=\"_blank\" class=\"btn btn-block btn-primary\">", "").replace("</a", "");
+            s = s.replace("href=\"//tv6.byr.cn/hls/", "").replace(".m3u8\" ", "").replace("=\"_blank\" class=\"btn btn-block btn-primary\">", "").replace("</a", "");
             // zjhdtarget浙江卫视高清
             String[] arr = s.split("target");
             programs.add(new Program(i, arr[0], arr[1], ProgramUrlUtils.getProgramPathFromInfo(new String[]{"3", arr[0]})));
